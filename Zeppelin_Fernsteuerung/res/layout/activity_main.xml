@@ -1,8 +1,89 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="de.home.zeppelin_fernsteuerung.MainActivity"
-    tools:ignore="MergeRootFrame" />
+    tools:ignore="MergeRootFrame" >
 
+    <Button
+        android:id="@+id/bt_hoch"
+        android:layout_width="200px"
+        android:layout_height="200px"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="100dp"
+        android:layout_marginTop="300px"
+        android:text="Hoch" />
+
+    <VideoView
+        android:id="@+id/videoView1"
+        android:layout_width="500px"
+        android:layout_height="450px"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <VideoView
+        android:id="@+id/videoView2"
+        android:layout_width="500px"
+        android:layout_height="450px"
+        android:layout_marginTop="10px"
+        android:layout_below="@+id/videoView1"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:id="@+id/bt_runter"
+        android:layout_width="200px"
+        android:layout_height="200px"
+        android:layout_below="@+id/bt_hoch"
+        android:layout_marginLeft="100dp"
+        android:text="Runter" />
+
+    <Button
+        android:id="@+id/bt_rechts"
+        android:layout_width="200px"
+        android:layout_height="200px"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="100px"
+        android:layout_below="@+id/bt_rueckschub"
+        android:text="Rechts" />
+
+    <Button
+        android:id="@+id/bt_links"
+        android:layout_width="200px"
+        android:layout_height="200px"
+        android:layout_alignBaseline="@+id/bt_rechts"
+        android:layout_alignBottom="@+id/bt_rechts"
+        android:layout_toLeftOf="@+id/bt_rechts"
+        android:text="Links" />
+
+    <Button
+        android:id="@+id/bt_rueckschub"
+        android:layout_width="200px"
+        android:layout_height="200px"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="100px"
+        android:layout_toRightOf="@+id/bt_links"
+        android:text="Rückschub" />
+
+    <Button
+        android:id="@+id/bt_vorschub"
+        android:layout_width="200px"
+        android:layout_height="200px"
+        android:layout_alignParentTop="true"
+        
+        android:layout_toLeftOf="@+id/bt_rueckschub"
+        android:text="Vorschub" />
+
+    <Button
+        android:id="@+id/bt_Motor"
+        android:layout_width="200px"
+        android:layout_height="200px"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:text="Motoren AUS"
+        android:layout_marginLeft="100px"
+        
+        android:textAlignment="center" />
+
+    </RelativeLayout>

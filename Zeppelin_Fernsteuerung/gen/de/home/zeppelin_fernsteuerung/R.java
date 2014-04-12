@@ -999,13 +999,13 @@ containing a value of this type.
         public static final int activity_chooser_view_content=0x7f050025;
         public static final int always=0x7f05000b;
         public static final int beginning=0x7f050011;
-        public static final int button_hoch=0x7f05003e;
-        public static final int button_links=0x7f050040;
-        public static final int button_motor_an_aus=0x7f050043;
-        public static final int button_rechts=0x7f05003f;
-        public static final int button_rueckschub=0x7f050041;
-        public static final int button_runter=0x7f05003d;
-        public static final int button_vorschub=0x7f050042;
+        public static final int bt_Motor=0x7f050045;
+        public static final int bt_hoch=0x7f05003d;
+        public static final int bt_links=0x7f050043;
+        public static final int bt_rechts=0x7f050041;
+        public static final int bt_rueckschub=0x7f050042;
+        public static final int bt_runter=0x7f050040;
+        public static final int bt_vorschub=0x7f050044;
         public static final int checkbox=0x7f05002d;
         public static final int collapseActionView=0x7f05000d;
         public static final int container=0x7f05003c;
@@ -1052,8 +1052,8 @@ containing a value of this type.
         public static final int top_action_bar=0x7f050020;
         public static final int up=0x7f050021;
         public static final int useLogo=0x7f050003;
-        public static final int videoView1=0x7f050044;
-        public static final int videoView2=0x7f050045;
+        public static final int videoView1=0x7f05003e;
+        public static final int videoView2=0x7f05003f;
         public static final int withText=0x7f05000c;
     }
     public static final class integer {
