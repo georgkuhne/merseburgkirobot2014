@@ -54,6 +54,15 @@ public class JoyStickClass {
 		params = mLayout.getLayoutParams();
 	}
 	
+	public void drawStickcreate(){
+		float x = 0;
+		float y = 0;
+		x += (params.width / 2);
+		y += (params.height / 2);
+		draw.position(x, y);
+		draw();
+		touch_state = false;
+	}
 	public void drawStick(MotionEvent arg1) {
 		position_x = (int) (arg1.getX() - (params.width / 2));
 		position_y = (int) (arg1.getY() - (params.height / 2));
@@ -90,9 +99,8 @@ public class JoyStickClass {
 			y += (params.height / 2);
 			draw.position(x, y);
 			draw();
-			
-
 			touch_state = false;
+			
 		}
 	}
 	
