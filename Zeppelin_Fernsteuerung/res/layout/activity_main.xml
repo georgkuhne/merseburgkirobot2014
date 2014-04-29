@@ -6,38 +6,52 @@
     tools:context="de.home.zeppelin_fernsteuerung.MainActivity"
     tools:ignore="MergeRootFrame" >
 
+    
+    
+
+    <android.support.v4.view.ViewPager
+    android:id="@+id/pager"
+    android:layout_width="700px"
+    android:layout_height="match_parent"
+    android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true">
+	</android.support.v4.view.ViewPager>
+	
+    
+
     <Button
         android:id="@+id/bt_hoch"
         android:layout_width="200px"
         android:layout_height="200px"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="100dp"
+        android:layout_marginLeft="100px"
         android:layout_marginTop="300px"
         android:text="Hoch" />
-
-    <VideoView
-        android:id="@+id/videoView1"
-        android:layout_width="500px"
-        android:layout_height="450px"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
-
-    <VideoView
-        android:id="@+id/videoView2"
-        android:layout_width="500px"
-        android:layout_height="450px"
-        android:layout_marginTop="10px"
-        android:layout_below="@+id/videoView1"
-        android:layout_centerHorizontal="true" />
-
+    
+    <Button
+        android:id="@+id/bt_hoch2"
+        android:layout_width="200px"
+        android:layout_height="200px"
+        android:layout_toRightOf="@+id/bt_hoch"
+        android:layout_marginTop="300px"
+        android:text="Hoch"/>
+    
     <Button
         android:id="@+id/bt_runter"
         android:layout_width="200px"
         android:layout_height="200px"
         android:layout_below="@+id/bt_hoch"
-        android:layout_marginLeft="100dp"
+        android:layout_marginLeft="100px"
         android:text="Runter" />
+    
+    <Button
+        android:id="@+id/bt_runter2"
+        android:layout_width="200px"
+        android:layout_height="200px"
+        android:layout_toRightOf="@+id/bt_runter"
+        android:layout_below="@+id/bt_hoch2"
+        android:text="Runter"/>
 
   
 
@@ -61,7 +75,32 @@
         android:layout_marginRight="36dp"
         android:background="@drawable/image_button_bg" >
     </RelativeLayout>
+    
+    <TextView
+        android:id="@+id/tVHeckrotor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bt_runter"
+        android:layout_marginLeft="150px"
+        android:text="Heckrotor" />
+    
+    <TextView
+        android:id="@+id/tVHauptrotoren"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bt_runter2"
+        android:layout_toRightOf="@+id/tVHeckrotor"
+        android:layout_marginLeft="50px"
+        android:text="Hauptrotoren" />
 
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/bt_hoch"
+        android:layout_alignLeft="@+id/layout_joystick"
+        android:text="TextView" />
+    
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
@@ -86,13 +125,7 @@
         android:layout_below="@+id/textView3"
         android:text="TextView" />
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/bt_hoch"
-        android:layout_alignLeft="@+id/layout_joystick"
-        android:text="TextView" />
+    
 
     <TextView
         android:id="@+id/textView5"
@@ -101,5 +134,7 @@
         android:layout_alignRight="@+id/textView4"
         android:layout_below="@+id/textView4"
         android:text="TextView" />
+
+    
 
     </RelativeLayout>

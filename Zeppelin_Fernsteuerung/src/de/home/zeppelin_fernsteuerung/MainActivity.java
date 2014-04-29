@@ -1,10 +1,18 @@
 package de.home.zeppelin_fernsteuerung;
 
 import java.text.DecimalFormat;
-
+import de.home.zeppelin_fernsteuerung.adapter.TabsPagerAdapter;
+import android.annotation.SuppressLint;
+import android.app.ActionBar.Tab;
+import android.app.ActionBar.TabListener;
+import android.app.FragmentTransaction;
+import android.app.TabActivity;
 import android.graphics.Canvas;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -23,7 +31,9 @@ import android.widget.VideoView;
 
 
 
-public class MainActivity extends ActionBarActivity {
+
+@SuppressLint("NewApi")
+public class MainActivity extends FragmentActivity implements TabListener{
 	
 	Button ButtonMotorToggle;
 	Button ButtonRunter;
@@ -42,6 +52,12 @@ public class MainActivity extends ActionBarActivity {
 	TextView textView4;
 	TextView textView5;
 	
+	private ViewPager viewPager;
+    private TabsPagerAdapter mAdapter;
+    private android.app.ActionBar actionBar;
+    // Tab titles
+    private String[] tabs = { "Top Rated", "Games", "Movies" };
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -51,17 +67,30 @@ public class MainActivity extends ActionBarActivity {
 					.add(R.id.container, new PlaceholderFragment()).commit();
 		}
 		
-		//Aktivieren der Buttons
+		//Initialisierung der Ui Elemente
 		ButtonMotorToggle = (Button) findViewById(R.id.bt_Motor);
 		ButtonRunter = (Button) findViewById(R.id.bt_runter);;
 		ButtonHoch = (Button) findViewById(R.id.bt_hoch);;
-		Video1 = (VideoView) findViewById(R.id.videoView1);
-		Video2 = (VideoView) findViewById(R.id.videoView2);
 		textView1 = (TextView) findViewById(R.id.textView1);
 		textView2 = (TextView) findViewById(R.id.textView2);
 		textView3 = (TextView) findViewById(R.id.textView3);
 		textView4 = (TextView) findViewById(R.id.textView4);
 		textView5 = (TextView) findViewById(R.id.textView5);
+		viewPager = (ViewPager) findViewById(R.id.pager);
+		actionBar = getActionBar();
+		mAdapter = new TabsPagerAdapter(getSupportFragmentManager());
+ 
+        viewPager.setAdapter(mAdapter);
+        actionBar.setHomeButtonEnabled(false);
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);       
+ 
+        // Adding Tabs
+        for (String tab_name : tabs) {
+            actionBar.addTab(actionBar.newTab().setText(tab_name)
+                    .setTabListener(this));
+        }
+		
+		
 		
 		layout_joystick = (RelativeLayout)findViewById(R.id.layout_joystick);
 
@@ -106,9 +135,7 @@ public class MainActivity extends ActionBarActivity {
 		);
 		
 			js.drawStickcreate();
-			
-			
-			
+						
 			layout_joystick.setOnTouchListener(new OnTouchListener() {
 				public boolean onTouch(View arg0, MotionEvent arg1) {
 					
@@ -176,6 +203,26 @@ public class MainActivity extends ActionBarActivity {
 					return true;
 				}
 	        });
+			
+			
+			viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+				 
+			    @Override
+			    public void onPageSelected(int position) {
+			        // on changing the page
+			        // make respected tab selected
+			        actionBar.setSelectedNavigationItem(position);
+			    }
+			 
+			    @Override
+			    public void onPageScrolled(int arg0, float arg1, int arg2) {
+			    }
+			 
+			    @Override
+			    public void onPageScrollStateChanged(int arg0) {
+			    }
+			});
+
 		
 	}
 
@@ -216,9 +263,25 @@ public class MainActivity extends ActionBarActivity {
 		}
 	}
 
+	@Override
+	public void onTabReselected(Tab tab, FragmentTransaction ft) {
+		// TODO Auto-generated method stub
+		
+	}
 
+	@Override
+	public void onTabSelected(Tab tab, FragmentTransaction ft) {
+		// TODO Auto-generated method stub
+		viewPager.setCurrentItem(tab.getPosition());
+		
+	}
+
+	@Override
+	public void onTabUnselected(Tab tab, FragmentTransaction ft) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
-
 
 }
