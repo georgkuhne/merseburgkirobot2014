@@ -1,32 +1,20 @@
 package de.home.zeppelin_fernsteuerung;
 
 import java.text.DecimalFormat;
-import de.home.zeppelin_fernsteuerung.adapter.TabsPagerAdapter;
+
 import android.annotation.SuppressLint;
 import android.app.ActionBar.Tab;
 import android.app.ActionBar.TabListener;
 import android.app.FragmentTransaction;
-import android.app.TabActivity;
-import android.graphics.Canvas;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.VideoView;
+
 
 
 
@@ -35,195 +23,22 @@ import android.widget.VideoView;
 @SuppressLint("NewApi")
 public class MainActivity extends FragmentActivity implements TabListener{
 	
-	Button ButtonMotorToggle;
-	Button ButtonRunter;
-	Button ButtonHoch;
-	VideoView Video1;
-	VideoView Video2;
 
-	RelativeLayout layout_joystick;
-	JoyStickClass js;
 	
 	DecimalFormat df = new DecimalFormat("0.00");
-	
-	TextView textView1;
-	TextView textView2;
-	TextView textView3;
-	TextView textView4;
-	TextView textView5;
-	
-	private ViewPager viewPager;
-    private TabsPagerAdapter mAdapter;
-    private android.app.ActionBar actionBar;
-    // Tab titles
-    private String[] tabs = { "Top Rated", "Games", "Movies" };
+
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+		setContentView(R.layout.layout_main);
 		if (savedInstanceState == null) {
 			getSupportFragmentManager().beginTransaction()
 					.add(R.id.container, new PlaceholderFragment()).commit();
 		}
 		
-		//Initialisierung der Ui Elemente
-		ButtonMotorToggle = (Button) findViewById(R.id.bt_Motor);
-		ButtonRunter = (Button) findViewById(R.id.bt_runter);;
-		ButtonHoch = (Button) findViewById(R.id.bt_hoch);;
-		textView1 = (TextView) findViewById(R.id.textView1);
-		textView2 = (TextView) findViewById(R.id.textView2);
-		textView3 = (TextView) findViewById(R.id.textView3);
-		textView4 = (TextView) findViewById(R.id.textView4);
-		textView5 = (TextView) findViewById(R.id.textView5);
-		viewPager = (ViewPager) findViewById(R.id.pager);
-		actionBar = getActionBar();
-		mAdapter = new TabsPagerAdapter(getSupportFragmentManager());
- 
-        viewPager.setAdapter(mAdapter);
-        actionBar.setHomeButtonEnabled(false);
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);       
- 
-        // Adding Tabs
-        for (String tab_name : tabs) {
-            actionBar.addTab(actionBar.newTab().setText(tab_name)
-                    .setTabListener(this));
-        }
-		
-		
-		
-		layout_joystick = (RelativeLayout)findViewById(R.id.layout_joystick);
-
-        js = new JoyStickClass(getApplicationContext()
-        		, layout_joystick, R.drawable.image_button);
-	    js.setStickSize(150, 150);
-	    js.setLayoutSize(400, 400);
-	    js.setLayoutAlpha(150);
-	    js.setStickAlpha(100);
-	    js.setOffset(90);
-	    js.setMinimumDistance(50);
-		
-	    
-		textView1.setText("X :");
-		textView2.setText("Y :");
-		textView3.setText("Angle :");
-		textView4.setText("Distance :");
-		textView5.setText("Direction :");
-	    
-		//Nutzung von Buttons zum Programmstart
-		
-			ButtonMotorToggle.setOnClickListener(new OnClickListener() {
-						
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				
-					if (ButtonMotorToggle.getText().toString().contains("AUS")) {
-						System.out.println(ButtonMotorToggle.getText());
-						Toast.makeText(getApplicationContext(), "Motoren starten", Toast.LENGTH_SHORT).show();
-						ButtonMotorToggle.setText("Motoren AN");
-					} else if (ButtonMotorToggle.getText().toString().contains("AN")) {
-						System.out.println(ButtonMotorToggle.getText());
-						Toast.makeText(getApplicationContext(), "Motoren stoppen", Toast.LENGTH_SHORT).show();
-						ButtonMotorToggle.setText("Motoren AUS");
-					}
-					
-							
-			}
-			
-		}
-		);
-		
-			js.drawStickcreate();
-						
-			layout_joystick.setOnTouchListener(new OnTouchListener() {
-				public boolean onTouch(View arg0, MotionEvent arg1) {
-					
-					
-					if(arg1.getAction() == MotionEvent.ACTION_DOWN
-							|| arg1.getAction() == MotionEvent.ACTION_MOVE) {
-						
-						js.drawStick(arg1);
-						textView1.setText("X : " + String.valueOf(js.getX()));
-						textView2.setText("Y : " + String.valueOf(js.getY()));
-						textView3.setText("Angle : " + String.valueOf (df.format( js.getAngle())));
-						textView4.setText("Distance : " + String.valueOf(df.format(js.getDistance())));
-						
-						int direction = js.get8Direction();
-						if(direction == JoyStickClass.STICK_UP) {
-							textView5.setText("Direction : Up");
-						} else if(direction == JoyStickClass.STICK_UPRIGHT) {
-							textView5.setText("Direction : Up Right");
-						} else if(direction == JoyStickClass.STICK_RIGHT) {
-							textView5.setText("Direction : Right");
-						} else if(direction == JoyStickClass.STICK_DOWNRIGHT) {
-							textView5.setText("Direction : Down Right");
-						} else if(direction == JoyStickClass.STICK_DOWN) {
-							textView5.setText("Direction : Down");
-						} else if(direction == JoyStickClass.STICK_DOWNLEFT) {
-							textView5.setText("Direction : Down Left");
-						} else if(direction == JoyStickClass.STICK_LEFT) {
-							textView5.setText("Direction : Left");
-						} else if(direction == JoyStickClass.STICK_UPLEFT) {
-							textView5.setText("Direction : Up Left");
-						} else if(direction == JoyStickClass.STICK_NONE) {
-							textView5.setText("Direction : Center");
-						}
-					} else if(arg1.getAction() == MotionEvent.ACTION_UP) {
-
-						js.drawStick(arg1);
-						
-						textView1.setText("X : " + String.valueOf(js.getX()));
-						textView2.setText("Y : " + String.valueOf(js.getY()));
-						textView3.setText("Angle : " + String.valueOf(js.getAngle()));
-						textView4.setText("Distance : " + String.valueOf(js.getDistance()));
-						
-						int direction = js.get8Direction();
-						if(direction == JoyStickClass.STICK_UP) {
-							textView5.setText("Direction : Up");
-						} else if(direction == JoyStickClass.STICK_UPRIGHT) {
-							textView5.setText("Direction : Up Right");
-						} else if(direction == JoyStickClass.STICK_RIGHT) {
-							textView5.setText("Direction : Right");
-						} else if(direction == JoyStickClass.STICK_DOWNRIGHT) {
-							textView5.setText("Direction : Down Right");
-						} else if(direction == JoyStickClass.STICK_DOWN) {
-							textView5.setText("Direction : Down");
-						} else if(direction == JoyStickClass.STICK_DOWNLEFT) {
-							textView5.setText("Direction : Down Left");
-						} else if(direction == JoyStickClass.STICK_LEFT) {
-							textView5.setText("Direction : Left");
-						} else if(direction == JoyStickClass.STICK_UPLEFT) {
-							textView5.setText("Direction : Up Left");
-						} else if(direction == JoyStickClass.STICK_NONE) {
-							textView5.setText("Direction : Center");
-						}
-						
-					}
-					return true;
-				}
-	        });
-			
-			
-			viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-				 
-			    @Override
-			    public void onPageSelected(int position) {
-			        // on changing the page
-			        // make respected tab selected
-			        actionBar.setSelectedNavigationItem(position);
-			    }
-			 
-			    @Override
-			    public void onPageScrolled(int arg0, float arg1, int arg2) {
-			    }
-			 
-			    @Override
-			    public void onPageScrollStateChanged(int arg0) {
-			    }
-			});
-
-		
+	
+	
 	}
 
 	@Override
@@ -271,8 +86,6 @@ public class MainActivity extends FragmentActivity implements TabListener{
 
 	@Override
 	public void onTabSelected(Tab tab, FragmentTransaction ft) {
-		// TODO Auto-generated method stub
-		viewPager.setCurrentItem(tab.getPosition());
 		
 	}
 

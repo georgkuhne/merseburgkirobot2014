@@ -132,7 +132,7 @@ public final class R {
 		public static final int abc_split_action_bar_is_narrow = 0x7f060002;
 	}
 	public static final class color {
-		public static final int abc_search_url_text_holo = 0x7f070003;
+		public static final int abc_search_url_text_holo = 0x7f070013;
 		public static final int abc_search_url_text_normal = 0x7f070000;
 		public static final int abc_search_url_text_pressed = 0x7f070002;
 		public static final int abc_search_url_text_selected = 0x7f070001;
@@ -334,7 +334,7 @@ public final class R {
 		public static final int abc_popup_menu_item_layout = 0x7f030014;
 		public static final int abc_search_dropdown_item_icons_2line = 0x7f030015;
 		public static final int abc_search_view = 0x7f030016;
-		public static final int support_simple_spinner_dropdown_item = 0x7f03001c;
+		public static final int support_simple_spinner_dropdown_item = 0x7f03001d;
 	}
 	public static final class string {
 		public static final int abc_action_bar_home_description = 0x7f0a0001;
@@ -554,7 +554,7 @@ public final class R {
 		public static final int MenuItem_android_titleCondensed = 8;
 		public static final int MenuItem_android_visible = 4;
 		public static final int MenuItem_showAsAction = 13;
-		public static final int[] MenuView = { 0x010100ae, 0x0101012c, 0x0101012d, 0x0101012e, 0x0101012f, 0x01010130, 0x01010131, 0x01010435 };
+		public static final int[] MenuView = { 0x010100ae, 0x0101012c, 0x0101012d, 0x0101012e, 0x0101012f, 0x01010130, 0x01010131, 0x010103f8 };
 		public static final int MenuView_android_headerBackground = 4;
 		public static final int MenuView_android_horizontalDivider = 2;
 		public static final int MenuView_android_itemBackground = 5;
@@ -580,13 +580,13 @@ public final class R {
 		public static final int Spinner_popupPromptView = 8;
 		public static final int Spinner_prompt = 6;
 		public static final int Spinner_spinnerMode = 7;
-		public static final int[] Theme = { 0x7f010043, 0x7f010044, 0x7f010045, 0x7f010046, 0x7f010047, 0x7f010048 };
-		public static final int Theme_actionDropDownStyle = 0;
-		public static final int Theme_dropdownListPreferredItemHeight = 1;
-		public static final int Theme_listChoiceBackgroundIndicator = 5;
-		public static final int Theme_panelMenuListTheme = 4;
-		public static final int Theme_panelMenuListWidth = 3;
-		public static final int Theme_popupMenuStyle = 2;
+		public static final int[] Theme = { 0x01010033, 0x7f010043, 0x7f010044, 0x7f010045, 0x7f010046, 0x7f010047, 0x7f010048 };
+		public static final int Theme_actionDropDownStyle = 1;
+		public static final int Theme_dropdownListPreferredItemHeight = 2;
+		public static final int Theme_listChoiceBackgroundIndicator = 6;
+		public static final int Theme_panelMenuListTheme = 5;
+		public static final int Theme_panelMenuListWidth = 4;
+		public static final int Theme_popupMenuStyle = 3;
 		public static final int[] View = { 0x010100da, 0x7f010034, 0x7f010035 };
 		public static final int View_android_focusable = 0;
 		public static final int View_paddingEnd = 2;

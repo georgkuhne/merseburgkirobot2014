@@ -794,10 +794,26 @@ containing a value of this type.
         public static final int abc_split_action_bar_is_narrow=0x7f060002;
     }
     public static final class color {
-        public static final int abc_search_url_text_holo=0x7f070003;
+        public static final int abc_search_url_text_holo=0x7f070013;
         public static final int abc_search_url_text_normal=0x7f070000;
         public static final int abc_search_url_text_pressed=0x7f070002;
         public static final int abc_search_url_text_selected=0x7f070001;
+        public static final int aqua=0x7f07000c;
+        public static final int black=0x7f070012;
+        public static final int blue=0x7f070010;
+        public static final int fuchsia=0x7f070005;
+        public static final int gray=0x7f070008;
+        public static final int green=0x7f07000f;
+        public static final int lime=0x7f07000d;
+        public static final int maroon=0x7f07000b;
+        public static final int navy=0x7f070011;
+        public static final int olive=0x7f070009;
+        public static final int purple=0x7f07000a;
+        public static final int red=0x7f070006;
+        public static final int silver=0x7f070007;
+        public static final int teal=0x7f07000e;
+        public static final int white=0x7f070003;
+        public static final int yellow=0x7f070004;
     }
     public static final class dimen {
         /**  Default height of an action bar. 
@@ -986,6 +1002,7 @@ containing a value of this type.
         public static final int image_button_bg=0x7f020059;
     }
     public static final class id {
+        public static final int ProgressBar01=0x7f05004d;
         public static final int action_bar=0x7f05001c;
         public static final int action_bar_activity_content=0x7f050015;
         public static final int action_bar_container=0x7f05001b;
@@ -997,15 +1014,16 @@ containing a value of this type.
         public static final int action_menu_divider=0x7f050016;
         public static final int action_menu_presenter=0x7f050017;
         public static final int action_mode_close_button=0x7f050024;
-        public static final int action_settings=0x7f05004b;
+        public static final int action_settings=0x7f05004f;
         public static final int activity_chooser_view_content=0x7f050025;
         public static final int always=0x7f05000b;
         public static final int beginning=0x7f050011;
-        public static final int bt_Motor=0x7f050042;
         public static final int bt_hoch=0x7f05003e;
         public static final int bt_hoch2=0x7f05003f;
         public static final int bt_runter=0x7f050040;
         public static final int bt_runter2=0x7f050041;
+        public static final int button_reset=0x7f05004e;
+        public static final int buttonfix=0x7f05004b;
         public static final int checkbox=0x7f05002d;
         public static final int collapseActionView=0x7f05000d;
         public static final int container=0x7f05003c;
@@ -1022,7 +1040,9 @@ containing a value of this type.
         public static final int icon=0x7f05002a;
         public static final int ifRoom=0x7f05000a;
         public static final int image=0x7f050027;
-        public static final int layout_joystick=0x7f050043;
+        public static final int joystick=0x7f05004c;
+        public static final int layout_joystick=0x7f050042;
+        public static final int left=0x7f05004a;
         public static final int listMode=0x7f050001;
         public static final int list_item=0x7f050029;
         public static final int middle=0x7f050012;
@@ -1049,14 +1069,14 @@ containing a value of this type.
         public static final int showTitle=0x7f050006;
         public static final int split_action_bar=0x7f05001e;
         public static final int submit_area=0x7f050039;
-        public static final int tVHauptrotoren=0x7f050045;
-        public static final int tVHeckrotor=0x7f050044;
+        public static final int tVHauptrotoren=0x7f050044;
+        public static final int tVHeckrotor=0x7f050043;
         public static final int tabMode=0x7f050002;
-        public static final int textView1=0x7f050046;
-        public static final int textView2=0x7f050047;
-        public static final int textView3=0x7f050048;
-        public static final int textView4=0x7f050049;
-        public static final int textView5=0x7f05004a;
+        public static final int textView1=0x7f050045;
+        public static final int textView2=0x7f050046;
+        public static final int textView3=0x7f050047;
+        public static final int textView4=0x7f050048;
+        public static final int textView5=0x7f050049;
         public static final int title=0x7f05002b;
         public static final int top_action_bar=0x7f050020;
         public static final int up=0x7f050021;
@@ -1117,7 +1137,8 @@ containing a value of this type.
         public static final int fragment_main=0x7f030019;
         public static final int fragment_movies=0x7f03001a;
         public static final int fragment_top_rated=0x7f03001b;
-        public static final int support_simple_spinner_dropdown_item=0x7f03001c;
+        public static final int layout_main=0x7f03001c;
+        public static final int support_simple_spinner_dropdown_item=0x7f03001d;
     }
     public static final class menu {
         public static final int main=0x7f0c0000;
@@ -1165,6 +1186,8 @@ containing a value of this type.
         public static final int abc_shareactionprovider_share_with_application=0x7f0a000b;
         public static final int action_settings=0x7f0a000f;
         public static final int app_name=0x7f0a000d;
+        public static final int button_reset_text=0x7f0a0011;
+        public static final int fixbutton=0x7f0a0010;
         public static final int hello_world=0x7f0a000e;
     }
     public static final class style {
@@ -2424,7 +2447,7 @@ containing a value of this type.
          */
         public static final int[] MenuView = {
             0x010100ae, 0x0101012c, 0x0101012d, 0x0101012e,
-            0x0101012f, 0x01010130, 0x01010131, 0x01010435
+            0x0101012f, 0x01010130, 0x01010131, 0x010103f8
         };
         /**
           <p>
@@ -2497,6 +2520,82 @@ containing a value of this type.
           @attr name android:windowAnimationStyle
         */
         public static final int MenuView_android_windowAnimationStyle = 0;
+        /** Attributes that can be used with a ProgressBar.
+           <p>Includes the following attributes:</p>
+           <table>
+           <colgroup align="left" />
+           <colgroup align="left" />
+           <tr><th>Attribute</th><th>Description</th></tr>
+           <tr><td><code>{@link #ProgressBar_android_max android:max}</code></td><td></td></tr>
+           <tr><td><code>{@link #ProgressBar_android_maxHeight android:maxHeight}</code></td><td></td></tr>
+           <tr><td><code>{@link #ProgressBar_android_maxWidth android:maxWidth}</code></td><td></td></tr>
+           <tr><td><code>{@link #ProgressBar_android_minHeight android:minHeight}</code></td><td></td></tr>
+           <tr><td><code>{@link #ProgressBar_android_minWidth android:minWidth}</code></td><td></td></tr>
+           <tr><td><code>{@link #ProgressBar_android_progress android:progress}</code></td><td></td></tr>
+           <tr><td><code>{@link #ProgressBar_android_progressDrawable android:progressDrawable}</code></td><td></td></tr>
+           <tr><td><code>{@link #ProgressBar_android_secondaryProgress android:secondaryProgress}</code></td><td></td></tr>
+           </table>
+           @see #ProgressBar_android_max
+           @see #ProgressBar_android_maxHeight
+           @see #ProgressBar_android_maxWidth
+           @see #ProgressBar_android_minHeight
+           @see #ProgressBar_android_minWidth
+           @see #ProgressBar_android_progress
+           @see #ProgressBar_android_progressDrawable
+           @see #ProgressBar_android_secondaryProgress
+         */
+        public static final int[] ProgressBar = {
+            0x0101011f, 0x01010120, 0x01010136, 0x01010137,
+            0x01010138, 0x0101013c, 0x0101013f, 0x01010140
+        };
+        /**
+          <p>This symbol is the offset where the {@link android.R.attr#max}
+          attribute's value can be found in the {@link #ProgressBar} array.
+          @attr name android:max
+        */
+        public static final int ProgressBar_android_max = 2;
+        /**
+          <p>This symbol is the offset where the {@link android.R.attr#maxHeight}
+          attribute's value can be found in the {@link #ProgressBar} array.
+          @attr name android:maxHeight
+        */
+        public static final int ProgressBar_android_maxHeight = 1;
+        /**
+          <p>This symbol is the offset where the {@link android.R.attr#maxWidth}
+          attribute's value can be found in the {@link #ProgressBar} array.
+          @attr name android:maxWidth
+        */
+        public static final int ProgressBar_android_maxWidth = 0;
+        /**
+          <p>This symbol is the offset where the {@link android.R.attr#minHeight}
+          attribute's value can be found in the {@link #ProgressBar} array.
+          @attr name android:minHeight
+        */
+        public static final int ProgressBar_android_minHeight = 7;
+        /**
+          <p>This symbol is the offset where the {@link android.R.attr#minWidth}
+          attribute's value can be found in the {@link #ProgressBar} array.
+          @attr name android:minWidth
+        */
+        public static final int ProgressBar_android_minWidth = 6;
+        /**
+          <p>This symbol is the offset where the {@link android.R.attr#progress}
+          attribute's value can be found in the {@link #ProgressBar} array.
+          @attr name android:progress
+        */
+        public static final int ProgressBar_android_progress = 3;
+        /**
+          <p>This symbol is the offset where the {@link android.R.attr#progressDrawable}
+          attribute's value can be found in the {@link #ProgressBar} array.
+          @attr name android:progressDrawable
+        */
+        public static final int ProgressBar_android_progressDrawable = 5;
+        /**
+          <p>This symbol is the offset where the {@link android.R.attr#secondaryProgress}
+          attribute's value can be found in the {@link #ProgressBar} array.
+          @attr name android:secondaryProgress
+        */
+        public static final int ProgressBar_android_secondaryProgress = 4;
         /** Attributes that can be used with a SearchView.
            <p>Includes the following attributes:</p>
            <table>
@@ -2579,6 +2678,33 @@ containing a value of this type.
           @attr name de.home.zeppelin_fernsteuerung:queryHint
         */
         public static final int SearchView_queryHint = 4;
+        /** Attributes that can be used with a SeekBar.
+           <p>Includes the following attributes:</p>
+           <table>
+           <colgroup align="left" />
+           <colgroup align="left" />
+           <tr><th>Attribute</th><th>Description</th></tr>
+           <tr><td><code>{@link #SeekBar_android_thumb android:thumb}</code></td><td></td></tr>
+           <tr><td><code>{@link #SeekBar_android_thumbOffset android:thumbOffset}</code></td><td></td></tr>
+           </table>
+           @see #SeekBar_android_thumb
+           @see #SeekBar_android_thumbOffset
+         */
+        public static final int[] SeekBar = {
+            0x01010142, 0x01010143
+        };
+        /**
+          <p>This symbol is the offset where the {@link android.R.attr#thumb}
+          attribute's value can be found in the {@link #SeekBar} array.
+          @attr name android:thumb
+        */
+        public static final int SeekBar_android_thumb = 0;
+        /**
+          <p>This symbol is the offset where the {@link android.R.attr#thumbOffset}
+          attribute's value can be found in the {@link #SeekBar} array.
+          @attr name android:thumbOffset
+        */
+        public static final int SeekBar_android_thumbOffset = 1;
         /** Attributes that can be used with a Spinner.
            <p>Includes the following attributes:</p>
            <table>
@@ -2742,6 +2868,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
            <colgroup align="left" />
            <tr><th>Attribute</th><th>Description</th></tr>
            <tr><td><code>{@link #Theme_actionDropDownStyle de.home.zeppelin_fernsteuerung:actionDropDownStyle}</code></td><td> Default ActionBar dropdown style.</td></tr>
+           <tr><td><code>{@link #Theme_android_disabledAlpha android:disabledAlpha}</code></td><td></td></tr>
            <tr><td><code>{@link #Theme_dropdownListPreferredItemHeight de.home.zeppelin_fernsteuerung:dropdownListPreferredItemHeight}</code></td><td> The preferred item height for dropdown lists.</td></tr>
            <tr><td><code>{@link #Theme_listChoiceBackgroundIndicator de.home.zeppelin_fernsteuerung:listChoiceBackgroundIndicator}</code></td><td> Drawable used as a background for selected list items.</td></tr>
            <tr><td><code>{@link #Theme_panelMenuListTheme de.home.zeppelin_fernsteuerung:panelMenuListTheme}</code></td><td> Default Panel Menu style.</td></tr>
@@ -2749,6 +2876,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
            <tr><td><code>{@link #Theme_popupMenuStyle de.home.zeppelin_fernsteuerung:popupMenuStyle}</code></td><td> Default PopupMenu style.</td></tr>
            </table>
            @see #Theme_actionDropDownStyle
+           @see #Theme_android_disabledAlpha
            @see #Theme_dropdownListPreferredItemHeight
            @see #Theme_listChoiceBackgroundIndicator
            @see #Theme_panelMenuListTheme
@@ -2756,8 +2884,8 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
            @see #Theme_popupMenuStyle
          */
         public static final int[] Theme = {
-            0x7f010043, 0x7f010044, 0x7f010045, 0x7f010046,
-            0x7f010047, 0x7f010048
+            0x01010033, 0x7f010043, 0x7f010044, 0x7f010045,
+            0x7f010046, 0x7f010047, 0x7f010048
         };
         /**
           <p>
@@ -2770,7 +2898,13 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
           <p>This is a private symbol.
           @attr name de.home.zeppelin_fernsteuerung:actionDropDownStyle
         */
-        public static final int Theme_actionDropDownStyle = 0;
+        public static final int Theme_actionDropDownStyle = 1;
+        /**
+          <p>This symbol is the offset where the {@link android.R.attr#disabledAlpha}
+          attribute's value can be found in the {@link #Theme} array.
+          @attr name android:disabledAlpha
+        */
+        public static final int Theme_android_disabledAlpha = 0;
         /**
           <p>
           @attr description
@@ -2788,7 +2922,7 @@ containing a value of this type.
           <p>This is a private symbol.
           @attr name de.home.zeppelin_fernsteuerung:dropdownListPreferredItemHeight
         */
-        public static final int Theme_dropdownListPreferredItemHeight = 1;
+        public static final int Theme_dropdownListPreferredItemHeight = 2;
         /**
           <p>
           @attr description
@@ -2800,7 +2934,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
           <p>This is a private symbol.
           @attr name de.home.zeppelin_fernsteuerung:listChoiceBackgroundIndicator
         */
-        public static final int Theme_listChoiceBackgroundIndicator = 5;
+        public static final int Theme_listChoiceBackgroundIndicator = 6;
         /**
           <p>
           @attr description
@@ -2812,7 +2946,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
           <p>This is a private symbol.
           @attr name de.home.zeppelin_fernsteuerung:panelMenuListTheme
         */
-        public static final int Theme_panelMenuListTheme = 4;
+        public static final int Theme_panelMenuListTheme = 5;
         /**
           <p>
           @attr description
@@ -2830,7 +2964,7 @@ containing a value of this type.
           <p>This is a private symbol.
           @attr name de.home.zeppelin_fernsteuerung:panelMenuListWidth
         */
-        public static final int Theme_panelMenuListWidth = 3;
+        public static final int Theme_panelMenuListWidth = 4;
         /**
           <p>
           @attr description
@@ -2842,7 +2976,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
           <p>This is a private symbol.
           @attr name de.home.zeppelin_fernsteuerung:popupMenuStyle
         */
-        public static final int Theme_popupMenuStyle = 2;
+        public static final int Theme_popupMenuStyle = 3;
         /** Attributes that can be used with a View.
            <p>Includes the following attributes:</p>
            <table>
