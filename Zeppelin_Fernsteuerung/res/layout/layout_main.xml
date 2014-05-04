@@ -1,0 +1,83 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    tools:context="de.home.zeppelin_fernsteuerung.MainActivity"
+    tools:ignore="MergeRootFrame" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="600pt"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:orientation="horizontal"
+        android:visibility="visible" >
+
+        <RelativeLayout
+            android:id="@+id/left"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".25"
+            android:background="@color/black" >
+
+            <ToggleButton
+                android:id="@+id/buttonfix"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerInParent="true"
+                android:text="@string/fixbutton"
+                android:textOff="@string/fixbutton"
+                android:textOn="@string/fixbutton" />
+
+            <view
+                android:id="@+id/joystick"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_alignBottom="@id/buttonfix"
+                android:layout_centerInParent="true"
+                android:layout_marginBottom="@dimen/abc_action_bar_default_height"
+                class="de.home.zeppelin_fernsteuerung.widgets.joystick.JoystickView" />
+        </RelativeLayout>
+
+        <android.support.v4.view.ViewPager
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/pager"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".50"
+            android:background="@color/gray" >
+        </android.support.v4.view.ViewPager>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".25"
+            android:background="@color/black" >
+
+            <de.home.zeppelin_fernsteuerung.widgets.verticalseekbar.VerticalSeekBar
+                android:id="@+id/ProgressBar01"
+                android:layout_width="50dip"
+                android:layout_height="200dp"
+                android:layout_centerInParent="true"
+                android:layout_marginBottom="@dimen/abc_action_bar_default_height"
+                />
+
+            <Button
+                android:id="@+id/button_reset"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                                android:layout_marginBottom="@dimen/abc_action_bar_default_height"
+                
+                android:layout_centerInParent="true"
+                android:text="@string/button_reset_text" />
+
+        </RelativeLayout>
+    </LinearLayout>
+
+</RelativeLayout>
