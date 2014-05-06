@@ -32,6 +32,8 @@
                 android:layout_centerInParent="true"
                 android:text="@string/fixbutton"
                 android:textOff="@string/fixbutton"
+                                android:layout_marginBottom="50dp"
+                
                 android:textOn="@string/fixbutton" />
 
             <view
@@ -40,7 +42,7 @@
                 android:layout_height="200dp"
                 android:layout_alignBottom="@id/buttonfix"
                 android:layout_centerInParent="true"
-                android:layout_marginBottom="@dimen/abc_action_bar_default_height"
+                android:layout_marginBottom="100dp"
                 class="de.home.zeppelin_fernsteuerung.widgets.joystick.JoystickView" />
         </RelativeLayout>
 
@@ -58,25 +60,27 @@
             android:layout_height="match_parent"
             android:layout_weight=".25"
             android:background="@color/black" >
+              <Button
+                android:id="@+id/button_reset"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerInParent="true"
+                android:layout_marginBottom="50dp"
+                android:text="@string/button_reset_text" />
 
             <de.home.zeppelin_fernsteuerung.widgets.verticalseekbar.VerticalSeekBar
                 android:id="@+id/ProgressBar01"
                 android:layout_width="50dip"
                 android:layout_height="200dp"
+                android:layout_alignBottom="@id/button_reset"
                 android:layout_centerInParent="true"
-                android:layout_marginBottom="@dimen/abc_action_bar_default_height"
-                />
+                android:layout_marginBottom="100dp"
+                android:background="@color/gray"
+                android:progressDrawable="@drawable/progress_vertical"
+                android:thumb="@drawable/seek_thumb_wide" />
 
-            <Button
-                android:id="@+id/button_reset"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                                android:layout_marginBottom="@dimen/abc_action_bar_default_height"
-                
-                android:layout_centerInParent="true"
-                android:text="@string/button_reset_text" />
-
+          
         </RelativeLayout>
     </LinearLayout>
 
