@@ -1,9 +1,9 @@
 package de.home.zeppelin_fernsteuerung.adapter;
 
 
-import de.home.zeppelin_fernsteuerung.GamesFragment;
-import de.home.zeppelin_fernsteuerung.MoviesFragment;
-import de.home.zeppelin_fernsteuerung.TopRatedFragment;
+import de.home.zeppelin_fernsteuerung.BildFragment;
+import de.home.zeppelin_fernsteuerung.StatistikFragment;
+import de.home.zeppelin_fernsteuerung.MapFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -22,13 +22,13 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
         switch (index) {
         case 0:
             // Top Rated fragment activity
-        	return new TopRatedFragment();
+        	return new MapFragment();
         case 1:
             // Games fragment activity
-            return new GamesFragment();
+            return new BildFragment();
 		case 2:
             // Movies fragment activity
-            return new MoviesFragment();
+            return new StatistikFragment();
         	
         }
  

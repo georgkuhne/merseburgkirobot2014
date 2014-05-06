@@ -6,13 +6,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class TopRatedFragment extends Fragment {
+public class BildFragment extends Fragment {
 	 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
  
-        View rootView = inflater.inflate(R.layout.fragment_top_rated, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_bild, container, false);
          
         return rootView;
     }
