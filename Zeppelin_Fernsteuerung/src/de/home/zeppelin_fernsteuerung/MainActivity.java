@@ -3,6 +3,8 @@ package de.home.zeppelin_fernsteuerung;
 import java.text.DecimalFormat;
 
 import de.home.zeppelin_fernsteuerung.adapter.TabsPagerAdapter;
+import de.home.zeppelin_fernsteuerung.widgets.verticalseekbar.VerticalSeekBar;
+import de.home.zeppelin_fernsteuerung.widgets.verticalseekbar.VerticalSeekBar.OnSeekBarChangeListener;
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
@@ -16,7 +18,9 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 
 @SuppressLint("NewApi")
@@ -25,6 +29,8 @@ public class MainActivity extends FragmentActivity implements TabListener{
 	private ViewPager viewPager;
     private TabsPagerAdapter mAdapter;
     private ActionBar actionBar;
+    private VerticalSeekBar seekbar1, seekbar2;
+    private Button b_reset, b_fix;
     // Tab titles
     private String[] tabs = { "Karte", "Bild", "Statistik" };
  
@@ -45,7 +51,11 @@ public class MainActivity extends FragmentActivity implements TabListener{
         viewPager = (ViewPager) findViewById(R.id.pager);
         actionBar = getActionBar();
         mAdapter = new TabsPagerAdapter(getSupportFragmentManager());
- 
+        seekbar1 = (VerticalSeekBar) findViewById(R.id.ProgressBar01);
+        seekbar2 = (VerticalSeekBar) findViewById(R.id.ProgressBar02);
+        b_reset = (Button) findViewById(R.id.button_reset);
+        b_fix = (Button) findViewById(R.id.buttonfix);
+        
         viewPager.setAdapter(mAdapter);
         actionBar.setHomeButtonEnabled(false);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);       
@@ -76,7 +86,65 @@ public class MainActivity extends FragmentActivity implements TabListener{
             public void onPageScrollStateChanged(int arg0) {
             }
         });
+        
+        seekbar1.setOnSeekBarChangeListener(new OnSeekBarChangeListener(){
+
+			@Override
+			public void onProgressChanged(VerticalSeekBar seekBar,
+					int progress, boolean fromUser) {
+				int max1 = seekbar1.getMax();
+		        System.out.println("max wert seekbar1: " + max1);
+		        int akt_wertsb1 = seekbar1.getProgress();
+		        System.out.println("aktueller wert sb1: " + akt_wertsb1);
+				
+			}
+
+			@Override
+			public void onStartTrackingTouch(VerticalSeekBar seekBar) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onStopTrackingTouch(VerticalSeekBar seekBar) {
+				// TODO Auto-generated method stub
+				
+			}
+        });
+        
+        seekbar2.setOnSeekBarChangeListener(new OnSeekBarChangeListener(){
+
+			@Override
+			public void onProgressChanged(VerticalSeekBar seekBar,
+					int progress, boolean fromUser) {
+				int max2 = seekbar2.getMax();
+		        System.out.println("max wert seekbar2: " + max2);
+		        int akt_wertsb2 = seekbar2.getProgress();
+		        System.out.println("aktueller wert sb2: " + akt_wertsb2);
+				
+			}
+
+			@Override
+			public void onStartTrackingTouch(VerticalSeekBar seekBar) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onStopTrackingTouch(VerticalSeekBar seekBar) {
+				// TODO Auto-generated method stub
+				
+			}
+        });
 	
+        b_reset.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				seekbar1.setProgress(127);
+				seekbar2.setProgress(127);
+			}
+		});
 	}
 
 	@Override

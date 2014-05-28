@@ -74,12 +74,26 @@
                 android:layout_width="50dip"
                 android:layout_height="200dp"
                 android:layout_alignBottom="@id/button_reset"
-                android:layout_centerInParent="true"
+                android:layout_marginLeft="50dp"
                 android:layout_marginBottom="100dp"
+                android:progress="127"
+                android:max="255"
                 android:background="@color/gray"
                 android:progressDrawable="@drawable/progress_vertical"
                 android:thumb="@drawable/seek_thumb_wide" />
-
+ 				
+ 			<de.home.zeppelin_fernsteuerung.widgets.verticalseekbar.VerticalSeekBar
+                android:id="@+id/ProgressBar02"
+                android:layout_width="50dip"
+                android:layout_height="200dp"
+                android:layout_alignBottom="@id/button_reset"
+                android:layout_marginLeft="200dp"
+                android:layout_marginBottom="100dp"
+                android:progress="127"
+                android:max="255"
+                android:background="@color/gray"
+                android:progressDrawable="@drawable/progress_vertical"
+                android:thumb="@drawable/seek_thumb_wide" />
           
         </RelativeLayout>
     </LinearLayout>
