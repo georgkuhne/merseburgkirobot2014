@@ -211,6 +211,13 @@ public class JoystickView extends View {
 		return moveResolution;
 	}
 	
+	public float gethandleX(){
+		return handleX;
+	}
+	public float gethandleY(){
+		return handleY;
+	}
+	
 	// =========================================
 	// Public Methods 
 	// =========================================
@@ -518,4 +525,6 @@ public class JoystickView extends View {
 		offsetX = x;
 		offsetY = y;
 	}
+	
+	
 }

@@ -4,7 +4,7 @@
     <string name="app_name">Zeppelin_Fernsteuerung</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="fixbutton">fix</string>
+    <string name="fixbutton">handle not fix</string>
     <string name="button_reset_text">reset</string>
 
 </resources>

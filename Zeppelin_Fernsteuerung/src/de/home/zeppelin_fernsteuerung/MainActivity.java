@@ -3,6 +3,7 @@ package de.home.zeppelin_fernsteuerung;
 import java.text.DecimalFormat;
 
 import de.home.zeppelin_fernsteuerung.adapter.TabsPagerAdapter;
+import de.home.zeppelin_fernsteuerung.widgets.joystick.JoystickView;
 import de.home.zeppelin_fernsteuerung.widgets.verticalseekbar.VerticalSeekBar;
 import de.home.zeppelin_fernsteuerung.widgets.verticalseekbar.VerticalSeekBar.OnSeekBarChangeListener;
 import android.annotation.SuppressLint;
@@ -31,8 +32,11 @@ public class MainActivity extends FragmentActivity implements TabListener{
     private ActionBar actionBar;
     private VerticalSeekBar seekbar1, seekbar2;
     private Button b_reset, b_fix;
+    JoystickView joystick;
     // Tab titles
     private String[] tabs = { "Karte", "Bild", "Statistik" };
+    
+    
  
 	
 	DecimalFormat df = new DecimalFormat("0.00");
@@ -47,7 +51,7 @@ public class MainActivity extends FragmentActivity implements TabListener{
 					.add(R.id.container, new PlaceholderFragment()).commit();
 		}
 		
-		// Initilization
+		// Initialization
         viewPager = (ViewPager) findViewById(R.id.pager);
         actionBar = getActionBar();
         mAdapter = new TabsPagerAdapter(getSupportFragmentManager());
@@ -55,10 +59,10 @@ public class MainActivity extends FragmentActivity implements TabListener{
         seekbar2 = (VerticalSeekBar) findViewById(R.id.ProgressBar02);
         b_reset = (Button) findViewById(R.id.button_reset);
         b_fix = (Button) findViewById(R.id.buttonfix);
-        
         viewPager.setAdapter(mAdapter);
         actionBar.setHomeButtonEnabled(false);
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);       
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);     
+        joystick = (JoystickView) findViewById(R.id.joystick); 
  
         // Adding Tabs
         for (String tab_name : tabs) {
@@ -87,55 +91,6 @@ public class MainActivity extends FragmentActivity implements TabListener{
             }
         });
         
-        seekbar1.setOnSeekBarChangeListener(new OnSeekBarChangeListener(){
-
-			@Override
-			public void onProgressChanged(VerticalSeekBar seekBar,
-					int progress, boolean fromUser) {
-				int max1 = seekbar1.getMax();
-		        System.out.println("max wert seekbar1: " + max1);
-		        int akt_wertsb1 = seekbar1.getProgress();
-		        System.out.println("aktueller wert sb1: " + akt_wertsb1);
-				
-			}
-
-			@Override
-			public void onStartTrackingTouch(VerticalSeekBar seekBar) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void onStopTrackingTouch(VerticalSeekBar seekBar) {
-				// TODO Auto-generated method stub
-				
-			}
-        });
-        
-        seekbar2.setOnSeekBarChangeListener(new OnSeekBarChangeListener(){
-
-			@Override
-			public void onProgressChanged(VerticalSeekBar seekBar,
-					int progress, boolean fromUser) {
-				int max2 = seekbar2.getMax();
-		        System.out.println("max wert seekbar2: " + max2);
-		        int akt_wertsb2 = seekbar2.getProgress();
-		        System.out.println("aktueller wert sb2: " + akt_wertsb2);
-				
-			}
-
-			@Override
-			public void onStartTrackingTouch(VerticalSeekBar seekBar) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void onStopTrackingTouch(VerticalSeekBar seekBar) {
-				// TODO Auto-generated method stub
-				
-			}
-        });
 	
         b_reset.setOnClickListener(new OnClickListener() {
 			
@@ -145,8 +100,57 @@ public class MainActivity extends FragmentActivity implements TabListener{
 				seekbar2.setProgress(127);
 			}
 		});
+        
+        b_fix.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				if(joystick.isAutoReturnToCenter() == true){
+					b_fix.setText("handle fix");
+					joystick.setAutoReturnToCenter(false);
+				}else {
+					b_fix.setText("handle not fix");
+					joystick.setAutoReturnToCenter(true);
+				}
+				
+			}
+		});
+        
+        final int max1 = seekbar1.getMax();
+        final int max2 = seekbar2.getMax();
+        
+        Thread thread = new Thread()
+        {
+            @Override
+            public void run() {
+                try {
+                    while(true) {
+                        sleep(1000);
+                       
+        		        int akt_wertsb1 = seekbar1.getProgress();
+        		        System.out.println("aktueller wert sb1: " + akt_wertsb1);
+        		        int akt_wertsb2 = seekbar2.getProgress();
+        		        System.out.println("aktueller wert sb2: " + akt_wertsb2);
+        		       float X = joystick.gethandleX();
+        		       X = X-150;
+        		       System.out.println("handle X: " + X);
+        		       float Y = joystick.gethandleY();
+        		       Y = Y-150;
+        		       System.out.println("handle Y: " + Y);
+        		        
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        thread.start();
+
 	}
 
+	
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 
