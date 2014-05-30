@@ -3,6 +3,7 @@ package de.home.zeppelin_fernsteuerung;
 import java.text.DecimalFormat;
 
 import de.home.zeppelin_fernsteuerung.adapter.TabsPagerAdapter;
+import de.home.zeppelin_fernsteuerung.controller.controller;
 import de.home.zeppelin_fernsteuerung.widgets.joystick.JoystickView;
 import de.home.zeppelin_fernsteuerung.widgets.verticalseekbar.VerticalSeekBar;
 import de.home.zeppelin_fernsteuerung.widgets.verticalseekbar.VerticalSeekBar.OnSeekBarChangeListener;
@@ -30,9 +31,9 @@ public class MainActivity extends FragmentActivity implements TabListener{
 	private ViewPager viewPager;
     private TabsPagerAdapter mAdapter;
     private ActionBar actionBar;
-    private VerticalSeekBar seekbar1, seekbar2;
+    public VerticalSeekBar seekbar1, seekbar2;
     private Button b_reset, b_fix;
-    JoystickView joystick;
+    public JoystickView joystick;
     // Tab titles
     private String[] tabs = { "Karte", "Bild", "Statistik" };
     
@@ -77,8 +78,6 @@ public class MainActivity extends FragmentActivity implements TabListener{
          
             @Override
             public void onPageSelected(int position) {
-                // on changing the page
-                // make respected tab selected
                 actionBar.setSelectedNavigationItem(position);
             }
          
@@ -116,38 +115,14 @@ public class MainActivity extends FragmentActivity implements TabListener{
 			}
 		});
         
-        final int max1 = seekbar1.getMax();
-        final int max2 = seekbar2.getMax();
+     
+        //Start einer Asynchronen Task
+        controller ct;
+        ct = new controller(seekbar1, seekbar2, joystick);
+        ct.execute();
         
-        Thread thread = new Thread()
-        {
-            @Override
-            public void run() {
-                try {
-                    while(true) {
-                        sleep(1000);
-                       
-        		        int akt_wertsb1 = seekbar1.getProgress();
-        		        System.out.println("aktueller wert sb1: " + akt_wertsb1);
-        		        int akt_wertsb2 = seekbar2.getProgress();
-        		        System.out.println("aktueller wert sb2: " + akt_wertsb2);
-        		       float X = joystick.gethandleX();
-        		       X = X-150;
-        		       System.out.println("handle X: " + X);
-        		       float Y = joystick.gethandleY();
-        		       Y = Y-150;
-        		       System.out.println("handle Y: " + Y);
-        		        
-                    }
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        };
-
-        thread.start();
-
 	}
+	
 
 	
 	
