@@ -119,7 +119,7 @@ public class MainActivity extends FragmentActivity implements TabListener{
         //Start einer Asynchronen Task
         controller ct;
         ct = new controller(seekbar1, seekbar2, joystick);
-        ct.execute();
+        ct.start();
         
 	}
 	
