@@ -2,16 +2,15 @@ package de.home.zeppelin_fernsteuerung;
 
 import java.text.DecimalFormat;
 
-import de.home.zeppelin_fernsteuerung.adapter.TabsPagerAdapter;
-import de.home.zeppelin_fernsteuerung.controler.controler;
-import de.home.zeppelin_fernsteuerung.widgets.joystick.JoystickView;
-import de.home.zeppelin_fernsteuerung.widgets.verticalseekbar.VerticalSeekBar;
-import de.home.zeppelin_fernsteuerung.widgets.verticalseekbar.VerticalSeekBar.OnSeekBarChangeListener;
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.ActionBar.TabListener;
 import android.app.FragmentTransaction;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.hardware.usb.UsbManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -23,113 +22,129 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
-
+import de.home.zeppelin_fernsteuerung.adapter.TabsPagerAdapter;
+import de.home.zeppelin_fernsteuerung.communication.FTDriver;
+import de.home.zeppelin_fernsteuerung.communication.ThreadReadAndSendMessage;
+import de.home.zeppelin_fernsteuerung.controler.Controler;
+import de.home.zeppelin_fernsteuerung.widgets.joystick.JoystickView;
+import de.home.zeppelin_fernsteuerung.widgets.verticalseekbar.VerticalSeekBar;
 
 @SuppressLint("NewApi")
-public class MainActivity extends FragmentActivity implements TabListener{
-	
-	private ViewPager viewPager;
-    private TabsPagerAdapter mAdapter;
-    private ActionBar actionBar;
-    public VerticalSeekBar seekbar1, seekbar2;
-    private Button b_reset, b_fix;
-    public JoystickView joystick;
-    // Tab titles
-    private String[] tabs = { "Karte", "Bild", "Statistik" };
-    
-    
- 
-	
-	DecimalFormat df = new DecimalFormat("0.00");
+public class MainActivity extends FragmentActivity implements TabListener {
+	// [FTDriver] Permission String
+	private static final String ACTION_USB_PERMISSION = "jp.ksksue.tutorial.USB_PERMISSION";
 
-	
+	private ViewPager viewPager;
+	private TabsPagerAdapter mAdapter;
+	private ActionBar actionBar;
+	public VerticalSeekBar seekbar1, seekbar2;
+	private Button b_reset, b_fix;
+	public JoystickView joystick;
+	// Tab titles
+	private String[] tabs = { "Karte", "Bild", "Statistik" };
+
+	DecimalFormat df = new DecimalFormat("0.00");
+	private PendingIntent permissionIntent;
+
+	private FTDriver ftDriver;
+
+	private Controler controler;
+
+	private ThreadReadAndSendMessage threadReadAndSendMessage;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
 		setContentView(R.layout.layout_main);
 		if (savedInstanceState == null) {
 			getSupportFragmentManager().beginTransaction()
 					.add(R.id.container, new PlaceholderFragment()).commit();
 		}
-		
+
 		// Initialization
-        viewPager = (ViewPager) findViewById(R.id.pager);
-        actionBar = getActionBar();
-        mAdapter = new TabsPagerAdapter(getSupportFragmentManager());
-        seekbar1 = (VerticalSeekBar) findViewById(R.id.ProgressBar01);
-        seekbar2 = (VerticalSeekBar) findViewById(R.id.ProgressBar02);
-        b_reset = (Button) findViewById(R.id.button_reset);
-        b_fix = (Button) findViewById(R.id.buttonfix);
-        viewPager.setAdapter(mAdapter);
-        actionBar.setHomeButtonEnabled(false);
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);     
-        joystick = (JoystickView) findViewById(R.id.joystick); 
- 
-        // Adding Tabs
-        for (String tab_name : tabs) {
-            actionBar.addTab(actionBar.newTab().setText(tab_name)
-                    .setTabListener(this));
-        }
-        
-        /**
-         * on swiping the viewpager make respective tab selected
-         * */
-        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-         
-            @Override
-            public void onPageSelected(int position) {
-                actionBar.setSelectedNavigationItem(position);
-            }
-         
-            @Override
-            public void onPageScrolled(int arg0, float arg1, int arg2) {
-            }
-         
-            @Override
-            public void onPageScrollStateChanged(int arg0) {
-            }
-        });
-        
-	
-        b_reset.setOnClickListener(new OnClickListener() {
-			
+		viewPager = (ViewPager) findViewById(R.id.pager);
+		actionBar = getActionBar();
+		mAdapter = new TabsPagerAdapter(getSupportFragmentManager());
+		seekbar1 = (VerticalSeekBar) findViewById(R.id.ProgressBar01);
+		seekbar2 = (VerticalSeekBar) findViewById(R.id.ProgressBar02);
+		b_reset = (Button) findViewById(R.id.button_reset);
+		b_fix = (Button) findViewById(R.id.buttonfix);
+		viewPager.setAdapter(mAdapter);
+		actionBar.setHomeButtonEnabled(false);
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+		joystick = (JoystickView) findViewById(R.id.joystick);
+
+		// Adding Tabs
+		for (String tab_name : tabs) {
+			actionBar.addTab(actionBar.newTab().setText(tab_name)
+					.setTabListener(this));
+		}
+
+		/**
+		 * on swiping the viewpager make respective tab selected
+		 * */
+		viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
+			@Override
+			public void onPageSelected(int position) {
+				actionBar.setSelectedNavigationItem(position);
+			}
+
+			@Override
+			public void onPageScrolled(int arg0, float arg1, int arg2) {
+			}
+
+			@Override
+			public void onPageScrollStateChanged(int arg0) {
+			}
+		});
+
+		b_reset.setOnClickListener(new OnClickListener() {
+
 			@Override
 			public void onClick(View v) {
 				seekbar1.setProgress(127);
 				seekbar2.setProgress(127);
 			}
 		});
-        
-        b_fix.setOnClickListener(new OnClickListener() {
-			
+
+		b_fix.setOnClickListener(new OnClickListener() {
+
 			@Override
 			public void onClick(View v) {
-				if(joystick.isAutoReturnToCenter() == true){
+				if (joystick.isAutoReturnToCenter() == true) {
 					b_fix.setText("handle fix");
 					joystick.setAutoReturnToCenter(false);
-				}else {
+				} else {
 					b_fix.setText("handle not fix");
 					joystick.setAutoReturnToCenter(true);
 				}
-				
+
 			}
 		});
-        
-     
-        //Start einer Asynchronen Task
-        controler ct;
-        ct = new controler(seekbar1, seekbar2, joystick);
-        ct.start();
-        
-	}
-	
 
-	
-	
+		// Start einer Asynchronen Task
+
+		controler = new Controler(seekbar1, seekbar2, joystick);
+		controler.start();
+
+		permissionIntent = PendingIntent.getBroadcast(this, 0, new Intent(
+				ACTION_USB_PERMISSION), 0);
+
+		ftDriver = new FTDriver(
+				(UsbManager) getSystemService(Context.USB_SERVICE));
+
+		ftDriver.setPermissionIntent(permissionIntent);
+		threadReadAndSendMessage = new ThreadReadAndSendMessage(ftDriver);
+		threadReadAndSendMessage.run();
+	}
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 
-		// Inflate the menu; this adds items to the action bar if it is present.4
+		// Inflate the menu; this adds items to the action bar if it is
+		// present.4
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
@@ -166,7 +181,7 @@ public class MainActivity extends FragmentActivity implements TabListener{
 	@Override
 	public void onTabReselected(Tab tab, FragmentTransaction ft) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -177,9 +192,22 @@ public class MainActivity extends FragmentActivity implements TabListener{
 	@Override
 	public void onTabUnselected(Tab tab, FragmentTransaction ft) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
-	
+
+	@Override
+	protected void onDestroy() {
+		controler.end();
+		threadReadAndSendMessage.end();
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		ftDriver.end();
+
+		super.onDestroy();
+	}
 
 }
