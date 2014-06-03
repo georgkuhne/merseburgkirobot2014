@@ -3,7 +3,7 @@ package de.home.zeppelin_fernsteuerung;
 import java.text.DecimalFormat;
 
 import de.home.zeppelin_fernsteuerung.adapter.TabsPagerAdapter;
-import de.home.zeppelin_fernsteuerung.controller.controller;
+import de.home.zeppelin_fernsteuerung.controler.controler;
 import de.home.zeppelin_fernsteuerung.widgets.joystick.JoystickView;
 import de.home.zeppelin_fernsteuerung.widgets.verticalseekbar.VerticalSeekBar;
 import de.home.zeppelin_fernsteuerung.widgets.verticalseekbar.VerticalSeekBar.OnSeekBarChangeListener;
@@ -117,8 +117,8 @@ public class MainActivity extends FragmentActivity implements TabListener{
         
      
         //Start einer Asynchronen Task
-        controller ct;
-        ct = new controller(seekbar1, seekbar2, joystick);
+        controler ct;
+        ct = new controler(seekbar1, seekbar2, joystick);
         ct.start();
         
 	}
