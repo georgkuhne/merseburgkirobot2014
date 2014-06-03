@@ -1,4 +1,4 @@
-package de.home.zeppelin_fernbedienung.FTDIDriver;
+package de.home.zeppelin_fernsteuerung.communication;
 
 import android.app.PendingIntent;
 import android.content.Intent;
