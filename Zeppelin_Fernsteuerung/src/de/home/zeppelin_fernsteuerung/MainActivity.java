@@ -22,6 +22,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 import de.home.zeppelin_fernsteuerung.adapter.TabsPagerAdapter;
 import de.home.zeppelin_fernsteuerung.communication.FTDriver;
 import de.home.zeppelin_fernsteuerung.communication.ThreadReadAndSendMessage;
@@ -106,6 +107,7 @@ public class MainActivity extends FragmentActivity implements TabListener {
 			public void onClick(View v) {
 				seekbar1.setProgress(127);
 				seekbar2.setProgress(127);
+				runthreads();
 			}
 		});
 
@@ -127,7 +129,6 @@ public class MainActivity extends FragmentActivity implements TabListener {
 		// Start einer Asynchronen Task
 
 		controler = new Controler(seekbar1, seekbar2, joystick);
-		controler.start();
 
 		permissionIntent = PendingIntent.getBroadcast(this, 0, new Intent(
 				ACTION_USB_PERMISSION), 0);
@@ -137,7 +138,20 @@ public class MainActivity extends FragmentActivity implements TabListener {
 
 		ftDriver.setPermissionIntent(permissionIntent);
 		threadReadAndSendMessage = new ThreadReadAndSendMessage(ftDriver);
-		threadReadAndSendMessage.run();
+	}
+
+	protected void runthreads() {
+		if(ftDriver.begin(FTDriver.BAUD115200)) {
+			controler.start();
+			threadReadAndSendMessage.start();
+            
+            Toast.makeText(this, "connected", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "cannot connect", Toast.LENGTH_SHORT).show();
+        }
+	
+		
+
 	}
 
 	@Override
