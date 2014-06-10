@@ -44,8 +44,12 @@ public class Controler extends Thread {
 				float fl = 0, fr = 0, betrag;
 				byte motorlinks, motorrechts;
 				Thread.sleep(1000);
-				int drehung = seekbardrehung.getProgress();
-				int heck = seekbarheck.getProgress();
+				int drehung = seekbardrehung.getProgress() - 127;
+				int heck = seekbarheck.getProgress() - 127;
+				if (drehung < -127)
+					drehung = -127;
+				if (heck < -127)
+					heck = -127;
 				float wertx = (Joystick.gethandleX() - 100);
 				float werty = -(Joystick.gethandleY() - 100);
 

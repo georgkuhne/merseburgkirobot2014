@@ -44,6 +44,18 @@
                 android:layout_centerInParent="true"
                 android:layout_marginBottom="100dp"
                 class="de.home.zeppelin_fernsteuerung.widgets.joystick.JoystickView" />
+
+            <ToggleButton
+                android:id="@+id/ButtonConnect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/joystick"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="14dp"
+                android:text="ToggleButton"
+                android:textOff="Dissconnect"
+                android:textOn="Dissconnect" />
+
         </RelativeLayout>
 
         <android.support.v4.view.ViewPager

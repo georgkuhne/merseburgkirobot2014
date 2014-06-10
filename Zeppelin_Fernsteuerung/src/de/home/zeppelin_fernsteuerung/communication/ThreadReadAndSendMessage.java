@@ -48,13 +48,14 @@ public class ThreadReadAndSendMessage extends Thread {
 
 					outputStream.write(funkMessage.getHeader());
 					outputStream.write(funkMessage.getData());
+					outputStream.write(funkMessage.getPruefbyte());
+					byte c[] = outputStream.toByteArray();
+					ftDriver.write(c);
+					// String wbuf = "FTDriver Test.";
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-
-				byte c[] = outputStream.toByteArray();
-				ftDriver.write(c);
 
 			}
 		}

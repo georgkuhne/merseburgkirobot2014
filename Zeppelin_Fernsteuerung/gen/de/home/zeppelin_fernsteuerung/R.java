@@ -1011,8 +1011,9 @@ containing a value of this type.
         public static final int seek_thumb_wide=0x7f020062;
     }
     public static final class id {
-        public static final int ProgressBar01=0x7f050048;
-        public static final int ProgressBar02=0x7f050049;
+        public static final int ButtonConnect=0x7f050047;
+        public static final int ProgressBar01=0x7f050049;
+        public static final int ProgressBar02=0x7f05004a;
         public static final int action_bar=0x7f05001c;
         public static final int action_bar_activity_content=0x7f050015;
         public static final int action_bar_container=0x7f05001b;
@@ -1024,14 +1025,14 @@ containing a value of this type.
         public static final int action_menu_divider=0x7f050016;
         public static final int action_menu_presenter=0x7f050017;
         public static final int action_mode_close_button=0x7f050024;
-        public static final int action_settings=0x7f05004a;
+        public static final int action_settings=0x7f05004b;
         public static final int activity_chooser_view_content=0x7f050025;
         public static final int always=0x7f05000b;
         public static final int beginning=0x7f050011;
         public static final int btAktualisieren=0x7f050043;
         public static final int bt_runter=0x7f050040;
         public static final int bt_runter2=0x7f050042;
-        public static final int button_reset=0x7f050047;
+        public static final int button_reset=0x7f050048;
         public static final int buttonfix=0x7f050045;
         public static final int checkbox=0x7f05002d;
         public static final int collapseActionView=0x7f05000d;

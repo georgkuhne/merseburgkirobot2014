@@ -6,9 +6,11 @@ import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.ActionBar.TabListener;
+import android.app.AlertDialog;
 import android.app.FragmentTransaction;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.hardware.usb.UsbManager;
 import android.os.Bundle;
@@ -23,6 +25,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 import de.home.zeppelin_fernsteuerung.adapter.TabsPagerAdapter;
 import de.home.zeppelin_fernsteuerung.communication.FTDriver;
 import de.home.zeppelin_fernsteuerung.communication.ThreadReadAndSendMessage;
@@ -34,7 +37,7 @@ import de.home.zeppelin_fernsteuerung.widgets.verticalseekbar.VerticalSeekBar;
 public class MainActivity extends FragmentActivity implements TabListener {
 	// [FTDriver] Permission String
 	private static final String ACTION_USB_PERMISSION = "jp.ksksue.tutorial.USB_PERMISSION";
-
+	ToggleButton tb_connect;
 	private ViewPager viewPager;
 	private TabsPagerAdapter mAdapter;
 	private ActionBar actionBar;
@@ -74,6 +77,18 @@ public class MainActivity extends FragmentActivity implements TabListener {
 		viewPager.setAdapter(mAdapter);
 		actionBar.setHomeButtonEnabled(false);
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+		tb_connect = (ToggleButton) findViewById(R.id.ButtonConnect);
+		tb_connect.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				if (connect()) {
+					runthreads();
+				} else {
+					tb_connect.setChecked(false);
+				}
+			}
+		});
 		joystick = (JoystickView) findViewById(R.id.joystick);
 
 		// Adding Tabs
@@ -138,19 +153,12 @@ public class MainActivity extends FragmentActivity implements TabListener {
 
 		ftDriver.setPermissionIntent(permissionIntent);
 		threadReadAndSendMessage = new ThreadReadAndSendMessage(ftDriver);
+
 	}
 
 	protected void runthreads() {
-		if(ftDriver.begin(FTDriver.BAUD115200)) {
-			controler.start();
-			threadReadAndSendMessage.start();
-            
-            Toast.makeText(this, "connected", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, "cannot connect", Toast.LENGTH_SHORT).show();
-        }
-	
-		
+		controler.start();
+		threadReadAndSendMessage.start();
 
 	}
 
@@ -209,12 +217,58 @@ public class MainActivity extends FragmentActivity implements TabListener {
 
 	}
 
+	protected class ThreadConnection extends Thread {
+		boolean connected = false;
+		MainActivity mainActivity;
+
+		public ThreadConnection(MainActivity mainActivity1) {
+			mainActivity = mainActivity1;
+		}
+
+		@Override
+		public void run() {
+			try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			while (!connected) {
+
+			}
+			super.run();
+		}
+
+	}
+
+	protected boolean connect() {
+		if (ftDriver.begin(FTDriver.BAUD115200)) {
+
+			Toast.makeText(this, "connected", Toast.LENGTH_SHORT).show();
+			return true;
+		} else {
+			// Put up the Yes/No message box
+			AlertDialog ad = new AlertDialog.Builder(this).create();
+			ad.setCancelable(false); // This blocks the 'BACK' button
+			ad.setMessage("Connection failed, please try again.");
+			ad.setButton("OK", new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+				}
+			});
+			ad.show();
+		}
+		return false;
+
+	}
+
 	@Override
 	protected void onDestroy() {
 		controler.end();
 		threadReadAndSendMessage.end();
 		try {
-			Thread.sleep(1000);
+			Thread.sleep(5000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

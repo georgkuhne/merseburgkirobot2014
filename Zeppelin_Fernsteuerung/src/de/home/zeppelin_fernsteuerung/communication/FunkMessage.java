@@ -8,6 +8,7 @@ public class FunkMessage {
 	public static final byte TYPE_OHNERÜCKANTWORT = (byte) 0x00;
 	public static final byte TYPE_MITRÜCKANTWORT = (byte) 0x01;
 
+	private byte pruefbyte;
 	private byte header[] = new byte[3];
 	private byte data[];
 
@@ -21,7 +22,12 @@ public class FunkMessage {
 
 	public void setData(byte[] data) {
 		header[2] = (byte) data.length;
+		pruefbyte = CRC8.calc(data, data.length);
 		this.data = data;
+	}
+
+	public byte getPruefbyte() {
+		return pruefbyte;
 	}
 
 	public byte[] getHeader() {
@@ -29,11 +35,12 @@ public class FunkMessage {
 	}
 
 	public void setAdress(byte adresse) {
-		header[1] = (byte) ((header[2] & 0x0F) | adresse);
+		System.err.println();
+		header[1] = (byte) ((header[1] & 0xFF) | adresse);
 	}
 
 	public void setType(byte type) {
-		header[1] = (byte) ((header[2] & 0xF0) | type);
+		header[1] = (byte) ((header[1] & 0xFF) | type);
 	}
 
 }
