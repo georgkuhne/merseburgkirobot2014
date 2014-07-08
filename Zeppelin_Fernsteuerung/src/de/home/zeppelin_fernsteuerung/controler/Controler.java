@@ -43,15 +43,20 @@ public class Controler extends Thread {
 			try {
 				float fl = 0, fr = 0, betrag;
 				byte motorlinks, motorrechts;
-				Thread.sleep(1000);
+				Thread.sleep(200);
 				int drehung = seekbardrehung.getProgress() - 127;
 				int heck = seekbarheck.getProgress() - 127;
 				if (drehung < -127)
 					drehung = -127;
 				if (heck < -127)
 					heck = -127;
-				float wertx = (Joystick.gethandleX() - 100);
-				float werty = -(Joystick.gethandleY() - 100);
+				float a1 = Joystick.gethandleX();
+				float a2 = Joystick.gethandleY();
+				int with = Joystick.getWidth();
+				int height = Joystick.getHeight();
+
+				float wertx = (Joystick.gethandleX() - with / 2);
+				float werty = -(Joystick.gethandleY() - height / 2);
 
 				if (g1(wertx, werty) <= 0 & g2(wertx, werty) <= 0) {
 					fl = 1;
@@ -88,17 +93,15 @@ public class Controler extends Thread {
 					fl = 0.5f;
 					fr = 1f;
 				}
-				float g1 = g1(wertx, werty);
-				float g2 = g2(wertx, werty);
-				float g3 = g3(wertx, werty);
-				float g4 = g4(wertx, werty);
 
 				if (Math.abs(wertx) < Math.abs(werty))
 					betrag = Math.abs(werty);
 				else
 					betrag = Math.abs(wertx);
-				motorlinks = (byte) Math.round((127 * fl * (betrag / 50)));
-				motorrechts = (byte) Math.round((127 * fr * (betrag / 50)));
+				motorlinks = (byte) Math
+						.round((127 * fl * (betrag / (with / 4))));
+				motorrechts = (byte) Math
+						.round((127 * fr * (betrag / (with / 4))));
 
 				Communication.sendMotorDaten(motorlinks, motorrechts, drehung,
 						heck);

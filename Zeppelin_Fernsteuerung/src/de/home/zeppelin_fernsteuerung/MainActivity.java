@@ -122,7 +122,7 @@ public class MainActivity extends FragmentActivity implements TabListener {
 			public void onClick(View v) {
 				seekbar1.setProgress(127);
 				seekbar2.setProgress(127);
-				runthreads();
+
 			}
 		});
 
@@ -153,6 +153,7 @@ public class MainActivity extends FragmentActivity implements TabListener {
 
 		ftDriver.setPermissionIntent(permissionIntent);
 		threadReadAndSendMessage = new ThreadReadAndSendMessage(ftDriver);
+		controler.start();
 
 	}
 
@@ -242,7 +243,7 @@ public class MainActivity extends FragmentActivity implements TabListener {
 	}
 
 	protected boolean connect() {
-		if (ftDriver.begin(FTDriver.BAUD115200)) {
+		if (ftDriver.begin(FTDriver.BAUD57600)) {
 
 			Toast.makeText(this, "connected", Toast.LENGTH_SHORT).show();
 			return true;
