@@ -27,25 +27,6 @@ public class ThreadReadAndSendMessage extends Thread {
 					String sheader = "";
 					String sdata = "";
 
-					for (int i = 0; i < header.length; i++) {
-						sheader = sheader
-								+ "|"
-								+ String.format(
-										"%8s",
-										Integer.toBinaryString(header[i] & 0xFF))
-										.replace(' ', '0');
-					}
-					for (int i = 0; i < data.length; i++) {
-						sdata = sdata
-								+ "|"
-								+ String.format("%8s",
-										Integer.toBinaryString(data[i] & 0xFF))
-										.replace(' ', '0');
-					}
-
-					System.err.println("HEADER:" + sheader);
-					System.err.println("DATA:" + sdata);
-
 					outputStream.write(funkMessage.getHeader());
 					outputStream.write(funkMessage.getData());
 					outputStream.write(funkMessage.getPruefbyte());
