@@ -11,7 +11,7 @@ public class Communication {
 			int drehungvorn, int motorheck) {
 		FunkMessage message = new FunkMessage();
 		message.setAdress(FunkMessage.ADRESSE_MC);
-		message.setType(FunkMessage.TYPE_OHNERÜCKANTWORT);
+		message.setType(FunkMessage.TYPE_OHNERÃœCKANTWORT);
 		byte[] data = new byte[4];
 		data[0] = (byte) motorheck;
 		data[1] = (byte) drehungvorn;

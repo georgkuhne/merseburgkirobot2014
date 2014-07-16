@@ -1,6 +1,7 @@
 package de.home.zeppelin_fernsteuerung.communication;
 
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
 
 import android.util.Log;
 
@@ -8,6 +9,7 @@ public class ThreadReadMessage extends Thread {
 	private static final String TAG = "ThreadReadMessage";
 	private FTDriver ftDriver;
 	private boolean stop;
+	private ArrayList<ListenerSensorData> SensorObserver = new ArrayList<ListenerSensorData>();
 
 	public ThreadReadMessage(FTDriver ftDriver) {
 		Log.i(TAG, "Thread gestartet");
@@ -45,7 +47,7 @@ public class ThreadReadMessage extends Thread {
 								.calc(recievedData, recievedData.length)) {
 							// recievedMessage[0] = Startbyte
 							// recievedMessage[1] = Adresse
-							// recievedMessage[2] = Länge
+							// recievedMessage[2] = Lï¿½nge
 
 							float pressure = getFloat(recievedData, 0);
 							double latitude = getDouble(recievedData, 4);
@@ -58,6 +60,7 @@ public class ThreadReadMessage extends Thread {
 							int azimuth = getInt(recievedData, 38);
 							int battery = getInt(recievedData, 39);
 
+							updateSensorListener(pressure, latitude, longitude, altitude, speed, accuracy, roll, pitch, azimuth, battery);
 							/*
 							 * System.out.println("Pressure: " + pressure +
 							 * "\nLatitude: " + latitude + "\nLongitude: " +
@@ -113,5 +116,18 @@ public class ThreadReadMessage extends Thread {
 		value = (value << 8) | b;
 		return value;
 	}
+	
+	void addSensorListener(ListenerSensorData lsd){
+		SensorObserver.add(lsd);
+	}
+	
+	void removeSensorListener(ListenerSensorData lsd){
+		SensorObserver.remove(lsd);
+	}
 
+	private void updateSensorListener(float pressure, double latitude, double longitude, double altitude, float speed, float accuracy, int roll, int pitch, int azimuth, int battery){
+		for (int i = 0; i < SensorObserver.size(); i++) {
+			SensorObserver.get(i).updateSensorData(pressure, latitude, longitude, altitude, speed, accuracy, roll, pitch, azimuth, battery);
+		}
+	}
 }

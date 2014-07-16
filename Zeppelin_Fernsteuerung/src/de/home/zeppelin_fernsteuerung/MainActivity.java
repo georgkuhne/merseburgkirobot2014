@@ -29,6 +29,7 @@ import android.widget.ToggleButton;
 import de.home.zeppelin_fernsteuerung.adapter.TabsPagerAdapter;
 import de.home.zeppelin_fernsteuerung.communication.FTDriver;
 import de.home.zeppelin_fernsteuerung.communication.ThreadReadAndSendMessage;
+import de.home.zeppelin_fernsteuerung.communication.ThreadReadMessage;
 import de.home.zeppelin_fernsteuerung.controler.Controler;
 import de.home.zeppelin_fernsteuerung.widgets.joystick.JoystickView;
 import de.home.zeppelin_fernsteuerung.widgets.verticalseekbar.VerticalSeekBar;
@@ -38,6 +39,7 @@ public class MainActivity extends FragmentActivity implements TabListener {
 	// [FTDriver] Permission String
 	private static final String ACTION_USB_PERMISSION = "jp.ksksue.tutorial.USB_PERMISSION";
 	ToggleButton tb_connect;
+	ThreadReadMessage TRM;
 	private ViewPager viewPager;
 	private TabsPagerAdapter mAdapter;
 	private ActionBar actionBar;
@@ -153,13 +155,14 @@ public class MainActivity extends FragmentActivity implements TabListener {
 
 		ftDriver.setPermissionIntent(permissionIntent);
 		threadReadAndSendMessage = new ThreadReadAndSendMessage(ftDriver);
-		controler.start();
+		//controler.start();
 
 	}
 
 	protected void runthreads() {
 		controler.start();
 		threadReadAndSendMessage.start();
+		TRM.start();
 
 	}
 
@@ -229,7 +232,7 @@ public class MainActivity extends FragmentActivity implements TabListener {
 		@Override
 		public void run() {
 			try {
-				Thread.sleep(3000);
+				Thread.sleep(100);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

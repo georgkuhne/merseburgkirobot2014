@@ -43,7 +43,7 @@ public class Controler extends Thread {
 			try {
 				float fl = 0, fr = 0, betrag;
 				byte motorlinks, motorrechts;
-				Thread.sleep(200);
+				Thread.sleep(100);
 				int drehung = seekbardrehung.getProgress() - 127;
 				int heck = seekbarheck.getProgress() - 127;
 				if (drehung < -127)
