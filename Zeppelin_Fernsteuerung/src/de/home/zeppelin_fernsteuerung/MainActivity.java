@@ -155,7 +155,8 @@ public class MainActivity extends FragmentActivity implements TabListener {
 
 		ftDriver.setPermissionIntent(permissionIntent);
 		threadReadAndSendMessage = new ThreadReadAndSendMessage(ftDriver);
-		//controler.start();
+		// controler.start();
+		TRM = new ThreadReadMessage(ftDriver);
 
 	}
 
