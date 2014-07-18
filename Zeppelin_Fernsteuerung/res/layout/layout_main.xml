@@ -21,7 +21,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight=".25"
-            android:background="@color/black" >
+            android:background="@color/white" >
 
             <ToggleButton
                 android:id="@+id/buttonfix"
@@ -53,8 +53,8 @@
                 android:layout_alignParentTop="true"
                 android:layout_marginTop="14dp"
                 android:text="ToggleButton"
-                android:textOff="Dissconnect"
-                android:textOn="Dissconnect" />
+                android:textOff="Connect"
+                android:textOn="Disconnect" />
 
         </RelativeLayout>
 
@@ -71,7 +71,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight=".25"
-            android:background="@color/black" >
+            android:background="@color/white" >
               <Button
                 android:id="@+id/button_reset"
                 android:layout_width="wrap_content"

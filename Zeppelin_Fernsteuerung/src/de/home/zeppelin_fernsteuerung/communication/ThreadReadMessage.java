@@ -3,17 +3,27 @@ package de.home.zeppelin_fernsteuerung.communication;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 
+import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 public class ThreadReadMessage extends Thread {
 	private static final String TAG = "ThreadReadMessage";
 	private FTDriver ftDriver;
 	private boolean stop;
 	private ArrayList<ListenerSensorData> SensorObserver = new ArrayList<ListenerSensorData>();
+	private static ThreadReadMessage instance;
+	Context context;
 
-	public ThreadReadMessage(FTDriver ftDriver) {
+	public ThreadReadMessage(FTDriver ftDriver, Context c) {
 		Log.i(TAG, "Thread gestartet");
 		this.ftDriver = ftDriver;
+		instance = this;
+		context = c;
+	}
+
+	public static ThreadReadMessage getInstance() {
+		return instance;
 	}
 
 	@Override
@@ -26,7 +36,7 @@ public class ThreadReadMessage extends Thread {
 				byte[] recievedMessage = new byte[40];
 
 				l = ftDriver.read(recievedMessage);
-
+				Toast.makeText(context, l, Toast.LENGTH_SHORT).show();
 				byte[] recievedData = new byte[recievedMessage.length - 4];
 
 				System.arraycopy(recievedMessage, 3, recievedData, 0,
@@ -60,7 +70,9 @@ public class ThreadReadMessage extends Thread {
 							int azimuth = getInt(recievedData, 38);
 							int battery = getInt(recievedData, 39);
 
-							updateSensorListener(pressure, latitude, longitude, altitude, speed, accuracy, roll, pitch, azimuth, battery);
+							updateSensorListener(pressure, latitude, longitude,
+									altitude, speed, accuracy, roll, pitch,
+									azimuth, battery);
 							/*
 							 * System.out.println("Pressure: " + pressure +
 							 * "\nLatitude: " + latitude + "\nLongitude: " +
@@ -72,6 +84,8 @@ public class ThreadReadMessage extends Thread {
 							 */
 
 						} else {
+							Toast.makeText(context, "fehler",
+									Toast.LENGTH_SHORT).show();
 							Log.e(TAG,
 									"CRC8 Fehler: "
 											+ String.format(
@@ -91,6 +105,8 @@ public class ThreadReadMessage extends Thread {
 			} catch (Exception f) {
 				Log.wtf(TAG, f);
 				f.printStackTrace();
+				Toast.makeText(context, f.toString(), Toast.LENGTH_SHORT)
+						.show();
 
 			}
 
@@ -116,18 +132,22 @@ public class ThreadReadMessage extends Thread {
 		value = (value << 8) | b;
 		return value;
 	}
-	
-	void addSensorListener(ListenerSensorData lsd){
+
+	public void addSensorListener(ListenerSensorData lsd) {
 		SensorObserver.add(lsd);
 	}
-	
-	void removeSensorListener(ListenerSensorData lsd){
+
+	public void removeSensorListener(ListenerSensorData lsd) {
 		SensorObserver.remove(lsd);
 	}
 
-	private void updateSensorListener(float pressure, double latitude, double longitude, double altitude, float speed, float accuracy, int roll, int pitch, int azimuth, int battery){
+	private void updateSensorListener(float pressure, double latitude,
+			double longitude, double altitude, float speed, float accuracy,
+			int roll, int pitch, int azimuth, int battery) {
 		for (int i = 0; i < SensorObserver.size(); i++) {
-			SensorObserver.get(i).updateSensorData(pressure, latitude, longitude, altitude, speed, accuracy, roll, pitch, azimuth, battery);
+			SensorObserver.get(i).updateSensorData(pressure, latitude,
+					longitude, altitude, speed, accuracy, roll, pitch, azimuth,
+					battery);
 		}
 	}
 }

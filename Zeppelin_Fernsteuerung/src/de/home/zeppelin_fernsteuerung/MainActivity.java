@@ -84,10 +84,15 @@ public class MainActivity extends FragmentActivity implements TabListener {
 
 			@Override
 			public void onClick(View v) {
-				if (connect()) {
-					runthreads();
-				} else {
-					tb_connect.setChecked(false);
+				if (tb_connect.isChecked())
+					if (connect()) {
+						runthreads();
+					} else {
+						tb_connect.setChecked(false);
+					}
+				else {
+					disconnect();
+
 				}
 			}
 		});
@@ -156,14 +161,14 @@ public class MainActivity extends FragmentActivity implements TabListener {
 		ftDriver.setPermissionIntent(permissionIntent);
 		threadReadAndSendMessage = new ThreadReadAndSendMessage(ftDriver);
 		// controler.start();
-		TRM = new ThreadReadMessage(ftDriver);
+		TRM = new ThreadReadMessage(ftDriver, this);
 
 	}
 
 	protected void runthreads() {
 		controler.start();
-		threadReadAndSendMessage.start();
-		TRM.start();
+		// threadReadAndSendMessage.start();
+		// TRM.start();
 
 	}
 
@@ -270,6 +275,11 @@ public class MainActivity extends FragmentActivity implements TabListener {
 
 	@Override
 	protected void onDestroy() {
+		disconnect();
+		super.onDestroy();
+	}
+
+	private void disconnect() {
 		controler.end();
 		threadReadAndSendMessage.end();
 		try {
@@ -279,8 +289,6 @@ public class MainActivity extends FragmentActivity implements TabListener {
 			e.printStackTrace();
 		}
 		ftDriver.end();
-
-		super.onDestroy();
 	}
 
 }
