@@ -167,8 +167,8 @@ public class MainActivity extends FragmentActivity implements TabListener {
 
 	protected void runthreads() {
 		controler.start();
-		// threadReadAndSendMessage.start();
-		// TRM.start();
+		threadReadAndSendMessage.start();
+		TRM.start();
 
 	}
 

@@ -24,18 +24,18 @@ import android.widget.TextView;
 public class MainActivity extends Activity implements SensorEventListener {
 	private static final int SENDING_INTERVALL = 1000;
 	private static final String ACTION_USB_PERMISSION = "jp.ksksue.tutorial.USB_PERMISSION";
-	
+
 	private SensorManager sensorManager;
 	private Sensor sensor_pressure;
 	private Sensor sensor_Accelerometer;
 	private Sensor sensor_MagneticField;
-	
+
 	private float[] values_Accelerometer;
 	private float[] values_MagneticField;
 	private float[] matrix_R;
 	private float[] matrix_I;
 	private float[] matrix_Values;
-	
+
 	private int azimuth;
 	private int pitch;
 	private int roll;
@@ -50,7 +50,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 	private TextView text_azimuth;
 	private TextView text_pitch;
 	private TextView text_roll;
-	
+
 	private int batteryLevel = -1;
 
 	private ArrayList<Float> average_pressure;
@@ -67,17 +67,21 @@ public class MainActivity extends Activity implements SensorEventListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		FTDriver mSerial = new FTDriver((UsbManager) getSystemService(Context.USB_SERVICE));
+		FTDriver mSerial = new FTDriver(
+				(UsbManager) getSystemService(Context.USB_SERVICE));
 
-		PendingIntent permissionIntent = PendingIntent.getBroadcast(this, 0, new Intent(ACTION_USB_PERMISSION), 0);
+		PendingIntent permissionIntent = PendingIntent.getBroadcast(this, 0,
+				new Intent(ACTION_USB_PERMISSION), 0);
 		mSerial.setPermissionIntent(permissionIntent);
 		mSerial.begin(FTDriver.BAUD57600);
 
 		sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 		sensor_pressure = sensorManager.getDefaultSensor(Sensor.TYPE_PRESSURE);
-		sensor_Accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-		sensor_MagneticField = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
-		
+		sensor_Accelerometer = sensorManager
+				.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+		sensor_MagneticField = sensorManager
+				.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+
 		values_Accelerometer = new float[3];
 		values_MagneticField = new float[3];
 
@@ -93,8 +97,8 @@ public class MainActivity extends Activity implements SensorEventListener {
 		text_accuracy = (TextView) findViewById(R.id.text_accuracy);
 		text_battery = (TextView) findViewById(R.id.text_battery);
 		text_azimuth = (TextView) findViewById(R.id.text_azimuth);
-		text_pitch = (TextView)findViewById(R.id.text_pitch);
-		text_roll = (TextView)findViewById(R.id.text_roll);
+		text_pitch = (TextView) findViewById(R.id.text_pitch);
+		text_roll = (TextView) findViewById(R.id.text_roll);
 
 		average_pressure = new ArrayList<Float>();
 
@@ -107,27 +111,31 @@ public class MainActivity extends Activity implements SensorEventListener {
 		numberFormatGPS.setMaximumFractionDigits(5);
 
 		gps_listener = GPS_Listener.getInstance(this);
-		
+
 		new ReadSensorDataThread().start();
-		
+
 		new ThreadSendMessage(mSerial, getFragmentManager()).start();
 		new ThreadReadMessage(mSerial, this, getFragmentManager()).start();
 	}
-	
+
 	private BroadcastReceiver batteryInfoReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			batteryLevel = intent.getIntExtra(BatteryManager.EXTRA_LEVEL,0);
+			batteryLevel = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, 0);
 			text_battery.setText("Battery: " + batteryLevel + "%");
 		}
 	};
 
 	@Override
 	public void onResume() {
-		sensorManager.registerListener(this, sensor_pressure,SensorManager.SENSOR_DELAY_NORMAL);
-		sensorManager.registerListener(this, sensor_Accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
-		sensorManager.registerListener(this, sensor_MagneticField, SensorManager.SENSOR_DELAY_NORMAL);
-		registerReceiver(this.batteryInfoReceiver,	new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+		sensorManager.registerListener(this, sensor_pressure,
+				SensorManager.SENSOR_DELAY_NORMAL);
+		sensorManager.registerListener(this, sensor_Accelerometer,
+				SensorManager.SENSOR_DELAY_NORMAL);
+		sensorManager.registerListener(this, sensor_MagneticField,
+				SensorManager.SENSOR_DELAY_NORMAL);
+		registerReceiver(this.batteryInfoReceiver, new IntentFilter(
+				Intent.ACTION_BATTERY_CHANGED));
 		super.onResume();
 	}
 
@@ -162,59 +170,84 @@ public class MainActivity extends Activity implements SensorEventListener {
 			}
 			break;
 		}
-		
-		boolean success = SensorManager.getRotationMatrix(matrix_R, matrix_I,values_Accelerometer, values_MagneticField);
-		
+
+		boolean success = SensorManager.getRotationMatrix(matrix_R, matrix_I,
+				values_Accelerometer, values_MagneticField);
+
 		if (success) {
 			SensorManager.getOrientation(matrix_R, matrix_Values);
-			
-//			System.out.println("Azi ohne: " + matrix_Values[0] + ", Azi mit: " + (int)matrix_Values[0] + ", Azi Deg: " + Math.toDegrees(matrix_Values[0]));
 
-			azimuth = (int)Math.toDegrees(matrix_Values[0]) - 180;
-			pitch = (int)Math.toDegrees(matrix_Values[1]);
-			roll = (int)Math.toDegrees(matrix_Values[2]);
+			// System.out.println("Azi ohne: " + matrix_Values[0] +
+			// ", Azi mit: " + (int)matrix_Values[0] + ", Azi Deg: " +
+			// Math.toDegrees(matrix_Values[0]));
+
+			azimuth = (int) Math.toDegrees(matrix_Values[0]) - 180;
+			pitch = (int) Math.toDegrees(matrix_Values[1]);
+			roll = (int) Math.toDegrees(matrix_Values[2]);
 
 		}
 	}
-	
-	public void restartApp(View view){
+
+	public void restartApp(View view) {
 		Intent mStartActivity = new Intent(this, MainActivity.class);
 		int mPendingIntentId = 123456;
-		PendingIntent mPendingIntent = PendingIntent.getActivity(this, mPendingIntentId,    mStartActivity, PendingIntent.FLAG_CANCEL_CURRENT);
-		AlarmManager mgr = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-		mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, mPendingIntent);
+		PendingIntent mPendingIntent = PendingIntent.getActivity(this,
+				mPendingIntentId, mStartActivity,
+				PendingIntent.FLAG_CANCEL_CURRENT);
+		AlarmManager mgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+		mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100,
+				mPendingIntent);
 		System.exit(0);
 	}
 
 	protected class ReadSensorDataThread extends Thread {
 		public void run() {
 			while (sending) {
-				
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				HashMap<String, Double> location = gps_listener.getLocation();
 				final double av_latitude = location.get("Latitude");
 				final double av_longitude = location.get("Longitude");
-				
+
 				final float av_speed = gps_listener.getSpeed();
 				final double av_altitude = gps_listener.getAltitude();
 				final float av_accuracy = gps_listener.getAccuracy();
-				
+
 				final float av_pressure = getAveragePressure();
-				
-				CommunicationData.getInstance().sendSensorData(av_pressure, av_latitude, av_longitude, av_altitude, av_speed, av_accuracy, batteryLevel, azimuth, pitch, roll);
-				
+
+				CommunicationData.getInstance().sendSensorData(av_pressure,
+						av_latitude, av_longitude, av_altitude, av_speed,
+						av_accuracy, batteryLevel, azimuth, pitch, roll);
+
 				runOnUiThread(new Runnable() {
 
 					@Override
 					public void run() {
-						text_pressure.setText("Pressure: "+ numberFormatPressure.format(av_pressure)+ " hPa");
-						text_latitude.setText("Latitude: "+ numberFormatGPS.format(av_latitude));
-						text_longitude.setText("Longitude: "+ numberFormatGPS.format(av_longitude));
-						text_speed.setText("Speed: "+ numberFormatPressure.format(av_speed)+ " m/s");
-						text_accuracy.setText("Accuracy: auf " + av_accuracy+ " m genau");
-						text_altitude.setText("Altitude: "+ numberFormatPressure.format(av_altitude)+ " m über NN");
-						text_azimuth.setText("Azimuth: " + String.valueOf(azimuth)+"°");
-						text_pitch.setText("Pitch: " + String.valueOf(pitch)+"°");
-						text_roll.setText("Roll: " + String.valueOf(roll)+"°");
+						text_pressure.setText("Pressure: "
+								+ numberFormatPressure.format(av_pressure)
+								+ " hPa");
+						text_latitude.setText("Latitude: "
+								+ numberFormatGPS.format(av_latitude));
+						text_longitude.setText("Longitude: "
+								+ numberFormatGPS.format(av_longitude));
+						text_speed.setText("Speed: "
+								+ numberFormatPressure.format(av_speed)
+								+ " m/s");
+						text_accuracy.setText("Accuracy: auf " + av_accuracy
+								+ " m genau");
+						text_altitude.setText("Altitude: "
+								+ numberFormatPressure.format(av_altitude)
+								+ " m über NN");
+						text_azimuth.setText("Azimuth: "
+								+ String.valueOf(azimuth) + "°");
+						text_pitch.setText("Pitch: " + String.valueOf(pitch)
+								+ "°");
+						text_roll
+								.setText("Roll: " + String.valueOf(roll) + "°");
 					}
 				});
 
