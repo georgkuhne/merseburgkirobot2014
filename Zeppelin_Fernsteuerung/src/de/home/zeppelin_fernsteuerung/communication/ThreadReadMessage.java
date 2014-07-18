@@ -3,9 +3,9 @@ package de.home.zeppelin_fernsteuerung.communication;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 
-import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
+import de.home.zeppelin_fernsteuerung.MainActivity;
 
 public class ThreadReadMessage extends Thread {
 	private static final String TAG = "ThreadReadMessage";
@@ -13,13 +13,13 @@ public class ThreadReadMessage extends Thread {
 	private boolean stop;
 	private ArrayList<ListenerSensorData> SensorObserver = new ArrayList<ListenerSensorData>();
 	private static ThreadReadMessage instance;
-	Context context;
+	MainActivity mainactivity;
 
-	public ThreadReadMessage(FTDriver ftDriver, Context c) {
+	public ThreadReadMessage(FTDriver ftDriver, MainActivity mainactivity) {
 		Log.i(TAG, "Thread gestartet");
 		this.ftDriver = ftDriver;
 		instance = this;
-		context = c;
+		this.mainactivity = mainactivity;
 	}
 
 	public static ThreadReadMessage getInstance() {
@@ -33,10 +33,9 @@ public class ThreadReadMessage extends Thread {
 
 			try {
 				int l;
-				byte[] recievedMessage = new byte[40];
+				byte[] recievedMessage = new byte[44];
 
 				l = ftDriver.read(recievedMessage);
-				Toast.makeText(context, l, Toast.LENGTH_SHORT).show();
 				byte[] recievedData = new byte[recievedMessage.length - 4];
 
 				System.arraycopy(recievedMessage, 3, recievedData, 0,
@@ -82,10 +81,12 @@ public class ThreadReadMessage extends Thread {
 							 * "\nAzimuth: " + azimuth + "\nBattery: " + battery
 							 * + "\n###################################");
 							 */
+							toastErrorMessage("allesOK batterie " + battery
+									+ " roll " + roll);
 
 						} else {
-							Toast.makeText(context, "fehler",
-									Toast.LENGTH_SHORT).show();
+							toastErrorMessage("CRC Fehler");
+
 							Log.e(TAG,
 									"CRC8 Fehler: "
 											+ String.format(
@@ -96,22 +97,31 @@ public class ThreadReadMessage extends Thread {
 													.replace(' ', '0'));
 						}
 					} else {
-						Log.e(TAG, "Falsche Zieladresse");
+						toastErrorMessage("Falsche Zieladresse");
+
 					}
 				} else {
 					Log.e(TAG, "Auf Startbyte warten");
+					// toastErrorMessage("StartBytewaiting");
+
 				}
 
 			} catch (Exception f) {
 				Log.wtf(TAG, f);
 				f.printStackTrace();
-				Toast.makeText(context, f.toString(), Toast.LENGTH_SHORT)
-						.show();
-
+				toastErrorMessage(f.toString());
 			}
-
 		}
 
+	}
+
+	private void toastErrorMessage(final String messages) {
+		mainactivity.runOnUiThread(new Runnable() {
+			public void run() {
+				Toast.makeText(mainactivity, messages, Toast.LENGTH_SHORT)
+						.show();
+			}
+		});
 	}
 
 	private float getFloat(byte[] src, int start) {
@@ -141,13 +151,24 @@ public class ThreadReadMessage extends Thread {
 		SensorObserver.remove(lsd);
 	}
 
-	private void updateSensorListener(float pressure, double latitude,
-			double longitude, double altitude, float speed, float accuracy,
-			int roll, int pitch, int azimuth, int battery) {
-		for (int i = 0; i < SensorObserver.size(); i++) {
-			SensorObserver.get(i).updateSensorData(pressure, latitude,
-					longitude, altitude, speed, accuracy, roll, pitch, azimuth,
-					battery);
-		}
+	private void updateSensorListener(final float pressure,
+			final double latitude,
+
+			final double longitude, final double altitude, final float speed,
+			final float accuracy, final int roll, final int pitch,
+			final int azimuth, final int battery) {
+		mainactivity.runOnUiThread(new Runnable() {
+
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				for (int i = 0; i < SensorObserver.size(); i++) {
+					SensorObserver.get(i).updateSensorData(pressure, latitude,
+							longitude, altitude, speed, accuracy, roll, pitch,
+							azimuth, battery);
+				}
+
+			}
+		});
 	}
 }
