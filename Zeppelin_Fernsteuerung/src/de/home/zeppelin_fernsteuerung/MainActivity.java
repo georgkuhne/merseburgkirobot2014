@@ -282,6 +282,7 @@ public class MainActivity extends FragmentActivity implements TabListener {
 	private void disconnect() {
 		controler.end();
 		threadReadAndSendMessage.end();
+		TRM.end();
 		try {
 			Thread.sleep(5000);
 		} catch (InterruptedException e) {
@@ -290,5 +291,4 @@ public class MainActivity extends FragmentActivity implements TabListener {
 		}
 		ftDriver.end();
 	}
-
 }

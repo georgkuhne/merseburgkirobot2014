@@ -3,6 +3,8 @@ package de.home.zeppelin_fernsteuerung.communication;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 
+import org.apache.http.util.ByteArrayBuffer;
+
 import android.util.Log;
 import android.widget.Toast;
 import de.home.zeppelin_fernsteuerung.MainActivity;
@@ -29,31 +31,45 @@ public class ThreadReadMessage extends Thread {
 	@Override
 	public void run() {
 		stop = false;
+		ByteArrayBuffer buffer = new ByteArrayBuffer(500);
+		byte[] startbyteblock = null;
+		int l;
 		while (!stop) {
-
 			try {
-				int l;
-				byte[] recievedMessage = new byte[44];
+				byte[] messageBlock = new byte[44];
+				if (startbyteblock == null) {
+					l = ftDriver.read(messageBlock);
+					startbyteblock = getstartByteBlock(messageBlock, l);
+					if (startbyteblock != null) {
+						buffer.append(startbyteblock, 0, startbyteblock.length);
+					} else
+						continue;
 
-				l = ftDriver.read(recievedMessage);
-				byte[] recievedData = new byte[recievedMessage.length - 4];
+				}
 
-				System.arraycopy(recievedMessage, 3, recievedData, 0,
+				startbyteblock = readuntilMessageBlockComplete(buffer);
+				messageBlock = buffer.toByteArray();
+				buffer.clear();
+				byte[] recievedData = new byte[messageBlock.length - 4];
+
+				toastErrorMessage(bytesToHex(messageBlock));
+				System.arraycopy(messageBlock, 3, recievedData, 0,
 						recievedData.length);
-
-				if (Integer.toHexString(recievedMessage[0] & 0xFF)
+				if (Integer.toHexString(messageBlock[0] & 0xFF)
 						.equalsIgnoreCase("A5")) {
 					if (String
 							.format("%8s",
-									Integer.toBinaryString(recievedMessage[1] & 0xFF))
+									Integer.toBinaryString(messageBlock[1] & 0xFF))
 							.replace(' ', '0')
 							.equalsIgnoreCase(
 									String.format(
 											"%8s",
 											Integer.toBinaryString(FunkMessage.ADRESSE_TABLET))
 											.replace(' ', '0'))) {
-						if (recievedMessage[recievedMessage.length - 1] == CRC8
-								.calc(recievedData, recievedData.length)) {
+						// if (messageBlock[messageBlock.length - 1] ==
+						// CRC8.calc(
+						// recievedData, recievedData.length)) {
+						if (true) {
 							// recievedMessage[0] = Startbyte
 							// recievedMessage[1] = Adresse
 							// recievedMessage[2] = L�nge
@@ -81,11 +97,8 @@ public class ThreadReadMessage extends Thread {
 							 * "\nAzimuth: " + azimuth + "\nBattery: " + battery
 							 * + "\n###################################");
 							 */
-							toastErrorMessage("allesOK batterie " + battery
-									+ " roll " + roll);
 
 						} else {
-							toastErrorMessage("CRC Fehler");
 
 							Log.e(TAG,
 									"CRC8 Fehler: "
@@ -97,7 +110,6 @@ public class ThreadReadMessage extends Thread {
 													.replace(' ', '0'));
 						}
 					} else {
-						toastErrorMessage("Falsche Zieladresse");
 
 					}
 				} else {
@@ -113,6 +125,45 @@ public class ThreadReadMessage extends Thread {
 			}
 		}
 
+	}
+
+	private byte[] readuntilMessageBlockComplete(ByteArrayBuffer buffer) {
+		int l = buffer.length();
+		boolean complete = false;
+		byte[] block = new byte[44];
+		ByteArrayBuffer startbyte = new ByteArrayBuffer(44);
+		while (!stop) {
+			int readed = ftDriver.read(block);
+			l += readed;
+			if (l >= 44) {
+				if (l == 44) {
+					buffer.append(block, 0, readed);
+					return null;
+				}
+				if (l > 44) {
+					buffer.append(block, 0, readed - (l - 44));
+					startbyte.append(block, readed - (l - 44), readed);
+					return startbyte.toByteArray();
+				}
+
+			}
+
+			buffer.append(block, 0, readed);
+		}
+		return null;
+
+	}
+
+	private byte[] getstartByteBlock(byte[] messageBlock, int l) {
+		for (int i = 0; i < l; i++)
+			if (Integer.toHexString(messageBlock[i] & 0xFF).equalsIgnoreCase(
+					"A5")) {
+				ByteArrayBuffer b = new ByteArrayBuffer(40);
+				b.append(messageBlock, i, l - i);
+				return b.toByteArray();
+			}
+
+		return null;
 	}
 
 	private void toastErrorMessage(final String messages) {
@@ -171,4 +222,22 @@ public class ThreadReadMessage extends Thread {
 			}
 		});
 	}
+
+	final protected static char[] hexArray = "0123456789ABCDEF".toCharArray();
+
+	public static String bytesToHex(byte[] bytes) {
+		char[] hexChars = new char[bytes.length * 2];
+		for (int j = 0; j < bytes.length; j++) {
+			int v = bytes[j] & 0xFF;
+			hexChars[j * 2] = hexArray[v >>> 4];
+			hexChars[j * 2 + 1] = hexArray[v & 0x0F];
+		}
+		return new String(hexChars);
+	}
+
+	public void end() {
+		stop = true;
+
+	}
+
 }
