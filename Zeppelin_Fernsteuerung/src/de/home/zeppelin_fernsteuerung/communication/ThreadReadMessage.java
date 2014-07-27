@@ -24,7 +24,9 @@ public class ThreadReadMessage extends Thread {
 	private static final String TAG = "ThreadReadMessage";
 	private FTDriver ftDriver;
 	private boolean stop, bildUebertragungGestartet = false;
-	private ArrayList<ListenerSensorData> SensorObserver = new ArrayList<ListenerSensorData>();
+	private ArrayList<ListenerSensorData> sensorObserver = new ArrayList<ListenerSensorData>();
+	private ArrayList<ListenerPictureData> pictureObserver = new ArrayList<ListenerPictureData>();
+
 	private static ThreadReadMessage instance;
 	MainActivity mainactivity;
 	private ByteArrayBuffer bildBuffer = new ByteArrayBuffer(9999999);
@@ -160,7 +162,7 @@ public class ThreadReadMessage extends Thread {
 			bildUebertragungGestartet = !bildUebertragungGestartet;
 
 			if (!bildUebertragungGestartet && bildBuffer.length() != 0) {
-				updateBild(bildBuffer.toByteArray());
+				updatePictureListener(bildBuffer.toByteArray());
 				bildBuffer.clear();
 			}
 
@@ -170,10 +172,6 @@ public class ThreadReadMessage extends Thread {
 
 			bildBuffer.append(recievedData, 0, recievedData.length);
 		}
-	}
-
-	private void updateBild(byte[] recievedData) {
-		toastErrorMessage("bildübertragung fertig länge " + recievedData.length);
 	}
 
 	private byte[] readuntilMessageBlockComplete(ByteArrayBuffer buffer,
@@ -206,7 +204,7 @@ public class ThreadReadMessage extends Thread {
 		buffer.append(startbyteblock, 0, startbyteblock.length);
 		breaded.append(startbyteblock, 0, startbyteblock.length);
 		while (!stop) {
-			byte[] block = new byte[20];
+			byte[] block = new byte[5000];
 			int readed = ftDriver.read(block);
 			// int readed = array1.length;
 			l += readed;
@@ -290,11 +288,11 @@ public class ThreadReadMessage extends Thread {
 	}
 
 	public void addSensorListener(ListenerSensorData lsd) {
-		SensorObserver.add(lsd);
+		sensorObserver.add(lsd);
 	}
 
 	public void removeSensorListener(ListenerSensorData lsd) {
-		SensorObserver.remove(lsd);
+		sensorObserver.remove(lsd);
 	}
 
 	private void updateSensorListener(final float pressure,
@@ -307,14 +305,26 @@ public class ThreadReadMessage extends Thread {
 
 			@Override
 			public void run() {
-				for (int i = 0; i < SensorObserver.size(); i++) {
-					SensorObserver.get(i).updateSensorData(pressure, latitude,
+				for (int i = 0; i < sensorObserver.size(); i++) {
+					sensorObserver.get(i).updateSensorData(pressure, latitude,
 							longitude, altitude, speed, accuracy, roll, pitch,
 							azimuth, battery);
 				}
 
 			}
 		});
+	}
+
+	private void updatePictureListener(byte[] data) {
+		try {
+
+			for (int i = 0; i < pictureObserver.size(); i++) {
+				pictureObserver.get(i).udatePicture(data);
+			}
+
+		} catch (Exception e) {
+			toastErrorMessage(e.getMessage());
+		}
 	}
 
 	final protected static char[] hexArray = "0123456789ABCDEF".toCharArray();
@@ -331,6 +341,11 @@ public class ThreadReadMessage extends Thread {
 
 	public void end() {
 		stop = true;
+
+	}
+
+	public void addPictureDataListener(ListenerPictureData listener) {
+		pictureObserver.add(listener);
 
 	}
 

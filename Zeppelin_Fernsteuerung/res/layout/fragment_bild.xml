@@ -4,20 +4,29 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
      >
-     
-    <TextView android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Platzhalter für das aktuelle Bild"
-        android:textSize="20dp"
-        android:layout_centerInParent="true"/>
 
-    <Button
-        android:id="@+id/btAktualisieren"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="600pt"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:text="Aktualisieren" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical"
+        android:visibility="visible" >
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.03"
+            android:src="@drawable/abc_ab_bottom_solid_light_holo" />
+
+        <Gallery
+            android:id="@+id/gallery1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.34" />
+
+    </LinearLayout>
  
 </RelativeLayout>

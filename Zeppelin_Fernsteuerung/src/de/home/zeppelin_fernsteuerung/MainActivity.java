@@ -26,6 +26,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 import android.widget.ToggleButton;
+import de.home._zeppelin_fernsteuerung.pictures.PictureManager;
 import de.home.zeppelin_fernsteuerung.adapter.TabsPagerAdapter;
 import de.home.zeppelin_fernsteuerung.communication.FTDriver;
 import de.home.zeppelin_fernsteuerung.communication.ThreadReadAndSendMessage;
@@ -57,6 +58,7 @@ public class MainActivity extends FragmentActivity implements TabListener {
 	private Controler controler;
 
 	private ThreadReadAndSendMessage threadReadAndSendMessage;
+	private PictureManager picManager;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -127,6 +129,7 @@ public class MainActivity extends FragmentActivity implements TabListener {
 
 			@Override
 			public void onClick(View v) {
+
 				seekbar1.setProgress(127);
 				seekbar2.setProgress(127);
 
@@ -162,7 +165,8 @@ public class MainActivity extends FragmentActivity implements TabListener {
 		threadReadAndSendMessage = new ThreadReadAndSendMessage(ftDriver);
 		// controler.start();
 		TRM = new ThreadReadMessage(ftDriver, this);
-
+		// TRM.start();
+		picManager = new PictureManager(this);
 	}
 
 	protected void runthreads() {
