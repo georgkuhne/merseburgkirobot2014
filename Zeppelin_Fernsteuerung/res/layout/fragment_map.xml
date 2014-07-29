@@ -5,12 +5,8 @@
     android:orientation="vertical"
      >
      
-    <TextView android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Platzhalter für eine Karte mit GPS-Daten"
-        android:textSize="20dp"
-        android:layout_centerInParent="true"/>
+    	<org.mapsforge.map.android.view.MapView android:id="@+id/mapView"
+		android:layout_width="fill_parent" android:layout_height="fill_parent" />
      
  
 </RelativeLayout>

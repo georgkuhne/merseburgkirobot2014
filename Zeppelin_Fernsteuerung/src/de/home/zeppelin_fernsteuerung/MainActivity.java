@@ -2,6 +2,8 @@ package de.home.zeppelin_fernsteuerung;
 
 import java.text.DecimalFormat;
 
+import org.mapsforge.map.android.graphics.AndroidGraphicFactory;
+
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
@@ -69,6 +71,7 @@ public class MainActivity extends FragmentActivity implements TabListener {
 			getSupportFragmentManager().beginTransaction()
 					.add(R.id.container, new PlaceholderFragment()).commit();
 		}
+		AndroidGraphicFactory.createInstance(this.getApplication());
 
 		// Initialization
 		viewPager = (ViewPager) findViewById(R.id.pager);
@@ -170,8 +173,8 @@ public class MainActivity extends FragmentActivity implements TabListener {
 	}
 
 	protected void runthreads() {
-		controler.start();
-		threadReadAndSendMessage.start();
+		// controler.start();
+		// threadReadAndSendMessage.start();
 		TRM.start();
 
 	}
