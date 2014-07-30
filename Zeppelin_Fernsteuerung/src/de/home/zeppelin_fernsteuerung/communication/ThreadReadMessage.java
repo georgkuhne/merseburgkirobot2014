@@ -170,7 +170,7 @@ public class ThreadReadMessage extends Thread {
 			debug = "addbilddata buildbuffer append"
 					+ bildBuffer.toByteArray().length;
 
-			bildBuffer.append(recievedData, 0, recievedData.length);
+			bildBuffer.append(recievedData, 0, recievedData.length - 1);
 		}
 	}
 
@@ -319,6 +319,7 @@ public class ThreadReadMessage extends Thread {
 		try {
 
 			for (int i = 0; i < pictureObserver.size(); i++) {
+
 				pictureObserver.get(i).udatePicture(data);
 			}
 
