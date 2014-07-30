@@ -47,4 +47,5 @@ public class ThreadReadAndSendMessage extends Thread {
 		stopp = true;
 
 	}
+
 }

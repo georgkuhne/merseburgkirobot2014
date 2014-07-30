@@ -1,8 +1,15 @@
 package de.home.zeppelin_fernsteuerung;
 
+import java.io.File;
 import java.text.DecimalFormat;
 
+import org.mapsforge.core.model.LatLong;
 import org.mapsforge.map.android.graphics.AndroidGraphicFactory;
+import org.mapsforge.map.android.util.AndroidUtil;
+import org.mapsforge.map.android.view.MapView;
+import org.mapsforge.map.layer.cache.TileCache;
+import org.mapsforge.map.layer.renderer.TileRendererLayer;
+import org.mapsforge.map.rendertheme.InternalRenderTheme;
 
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
@@ -16,6 +23,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.hardware.usb.UsbManager;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
@@ -39,8 +47,10 @@ import de.home.zeppelin_fernsteuerung.widgets.verticalseekbar.VerticalSeekBar;
 
 @SuppressLint("NewApi")
 public class MainActivity extends FragmentActivity implements TabListener {
-	// [FTDriver] Permission String
+	private TileCache tileCache;
+	private TileRendererLayer tileRendererLayer;// [FTDriver] Permission String
 	private static final String ACTION_USB_PERMISSION = "jp.ksksue.tutorial.USB_PERMISSION";
+	private static final String MAPFILE = "germany.map";
 	ToggleButton tb_connect;
 	ThreadReadMessage TRM;
 	private ViewPager viewPager;
@@ -58,9 +68,10 @@ public class MainActivity extends FragmentActivity implements TabListener {
 	private FTDriver ftDriver;
 
 	private Controler controler;
-
+	private MapView mapView;
 	private ThreadReadAndSendMessage threadReadAndSendMessage;
 	private PictureManager picManager;
+	private boolean mapIsInitialized = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +87,7 @@ public class MainActivity extends FragmentActivity implements TabListener {
 		// Initialization
 		viewPager = (ViewPager) findViewById(R.id.pager);
 		actionBar = getActionBar();
-		mAdapter = new TabsPagerAdapter(getSupportFragmentManager());
+		mAdapter = new TabsPagerAdapter(getSupportFragmentManager(), this);
 		seekbar1 = (VerticalSeekBar) findViewById(R.id.ProgressBar01);
 		seekbar2 = (VerticalSeekBar) findViewById(R.id.ProgressBar02);
 		b_reset = (Button) findViewById(R.id.button_reset);
@@ -143,6 +154,7 @@ public class MainActivity extends FragmentActivity implements TabListener {
 
 			@Override
 			public void onClick(View v) {
+				init();
 				if (joystick.isAutoReturnToCenter() == true) {
 					b_fix.setText("handle fix");
 					joystick.setAutoReturnToCenter(false);
@@ -282,7 +294,12 @@ public class MainActivity extends FragmentActivity implements TabListener {
 
 	@Override
 	protected void onDestroy() {
-		disconnect();
+		this.tileCache.destroy();
+		controler.end();
+		threadReadAndSendMessage.end();
+		TRM.end();
+		ftDriver.end();
+
 		super.onDestroy();
 	}
 
@@ -290,12 +307,61 @@ public class MainActivity extends FragmentActivity implements TabListener {
 		controler.end();
 		threadReadAndSendMessage.end();
 		TRM.end();
-		try {
-			Thread.sleep(5000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
 		ftDriver.end();
 	}
+
+	public void init() {
+		if (mapIsInitialized)
+			return;
+		mAdapter.init();
+		// initMap();
+		mapIsInitialized = true;
+
+	}
+
+	public void initMap() {
+
+		mapView = (MapView) findViewById(R.id.mapView);
+		File file = getMapFile();
+
+		this.mapView.setClickable(true);
+		this.mapView.getMapScaleBar().setVisible(true);
+		this.mapView.setBuiltInZoomControls(true);
+		this.mapView.getMapZoomControls().setZoomLevelMin((byte) 10);
+		this.mapView.getMapZoomControls().setZoomLevelMax((byte) 20);
+
+		// create a tile cache of suitable size
+		this.tileCache = AndroidUtil.createTileCache(this, "mapcache",
+				mapView.getModel().displayModel.getTileSize(), 1f,
+				this.mapView.getModel().frameBufferModel.getOverdrawFactor());
+
+		this.mapView.getModel().mapViewPosition.setCenter(new LatLong(
+				52.517037, 13.38886));
+		this.mapView.getModel().mapViewPosition.setZoomLevel((byte) 12);
+		// tile renderer layer using internal render theme
+		this.tileRendererLayer = new TileRendererLayer(tileCache,
+				this.mapView.getModel().mapViewPosition, false,
+				AndroidGraphicFactory.INSTANCE);
+		tileRendererLayer.setMapFile(getMapFile());
+		tileRendererLayer.setXmlRenderTheme(InternalRenderTheme.OSMARENDER);
+		// only once a layer is associated with a mapView the rendering starts
+		this.mapView.getLayerManager().getLayers().add(tileRendererLayer);
+	}
+
+	private File getMapFile() {
+		File file = new File(Environment.getExternalStorageDirectory(), MAPFILE);
+		Toast.makeText(getApplicationContext(),
+				file.getPath() + " " + file.exists(), Toast.LENGTH_LONG).show();
+		return file;
+	}
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+		this.mapView.getLayerManager().getLayers()
+				.remove(this.tileRendererLayer);
+		this.tileRendererLayer.onDestroy();
+	}
+
 }

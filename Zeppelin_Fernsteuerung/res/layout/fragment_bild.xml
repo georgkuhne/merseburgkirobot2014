@@ -5,28 +5,47 @@
     android:orientation="vertical"
      >
 
-    <LinearLayout
+    <ProgressBar
+        android:id="@+id/progressBarREAD"
+        style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
-        android:layout_height="600pt"
-        android:layout_alignParentBottom="true"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/buttonActivate"
+        android:layout_below="@+id/buttonActivate" />
+
+    <TextView
+        android:id="@+id/percentageREAD"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
+        android:layout_below="@+id/progressBarREAD"
+        android:text="Bereit"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/percentageREAD"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp" />
+
+    <TextView
+        android:id="@+id/time_ellapsedREAD"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/progressBarREAD"
+        android:layout_below="@+id/progressBarREAD"
+        android:text="0:00"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <Button
+        android:id="@+id/buttonActivate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:orientation="vertical"
-        android:visibility="visible" >
-
-        <ImageView
-            android:id="@+id/imageView1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.03"
-            android:src="@drawable/abc_ab_bottom_solid_light_holo" />
-
-        <Gallery
-            android:id="@+id/gallery1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.34" />
-
-    </LinearLayout>
+        android:layout_toRightOf="@+id/button1"
+        android:enabled="false"
+        android:text="Get Picture" />
  
 </RelativeLayout>
