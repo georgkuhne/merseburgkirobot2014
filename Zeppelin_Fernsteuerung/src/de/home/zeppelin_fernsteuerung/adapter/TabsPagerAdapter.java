@@ -3,9 +3,9 @@ package de.home.zeppelin_fernsteuerung.adapter;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import de.home._zeppelin_fernsteuerung.map.MapFragment;
 import de.home.zeppelin_fernsteuerung.BildFragment;
 import de.home.zeppelin_fernsteuerung.MainActivity;
-import de.home.zeppelin_fernsteuerung.MapFragment;
 import de.home.zeppelin_fernsteuerung.StatistikFragment;
 
 public class TabsPagerAdapter extends FragmentPagerAdapter {
@@ -40,12 +40,12 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
 
 	@Override
 	public int getCount() {
-		// get item count - equal to number of tabs
 		return 3;
 	}
 
 	public void init() {
 		bild.init();
+		map.init();
 
 	}
 

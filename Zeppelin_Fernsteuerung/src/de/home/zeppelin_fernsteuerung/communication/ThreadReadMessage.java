@@ -350,4 +350,9 @@ public class ThreadReadMessage extends Thread {
 
 	}
 
+	public void setDriver(FTDriver ftDriver2) {
+		ftDriver = ftDriver2;
+
+	}
+
 }

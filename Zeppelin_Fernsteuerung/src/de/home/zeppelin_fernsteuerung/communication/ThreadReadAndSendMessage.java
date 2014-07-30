@@ -48,4 +48,8 @@ public class ThreadReadAndSendMessage extends Thread {
 
 	}
 
+	public void setDriver(FTDriver ftDriver2) {
+		ftDriver = ftDriver2;
+
+	}
 }

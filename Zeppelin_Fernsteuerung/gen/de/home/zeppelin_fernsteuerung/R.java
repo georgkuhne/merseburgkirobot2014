@@ -1000,15 +1000,16 @@ containing a value of this type.
         public static final int ic_launcher=0x7f020057;
         public static final int image_button=0x7f020058;
         public static final int image_button_bg=0x7f020059;
-        public static final int progress_vertical=0x7f02005a;
-        public static final int seek_thumb=0x7f02005b;
-        public static final int seek_thumb_normal=0x7f02005c;
-        public static final int seek_thumb_normal_wide=0x7f02005d;
-        public static final int seek_thumb_pressed=0x7f02005e;
-        public static final int seek_thumb_pressed_wide=0x7f02005f;
-        public static final int seek_thumb_selected=0x7f020060;
-        public static final int seek_thumb_selected_wide=0x7f020061;
-        public static final int seek_thumb_wide=0x7f020062;
+        public static final int marker_red=0x7f02005a;
+        public static final int progress_vertical=0x7f02005b;
+        public static final int seek_thumb=0x7f02005c;
+        public static final int seek_thumb_normal=0x7f02005d;
+        public static final int seek_thumb_normal_wide=0x7f02005e;
+        public static final int seek_thumb_pressed=0x7f02005f;
+        public static final int seek_thumb_pressed_wide=0x7f020060;
+        public static final int seek_thumb_selected=0x7f020061;
+        public static final int seek_thumb_selected_wide=0x7f020062;
+        public static final int seek_thumb_wide=0x7f020063;
     }
     public static final class id {
         public static final int ButtonConnect=0x7f050061;

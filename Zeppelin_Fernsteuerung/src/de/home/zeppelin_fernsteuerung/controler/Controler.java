@@ -1,5 +1,6 @@
 package de.home.zeppelin_fernsteuerung.controler;
 
+import android.util.Log;
 import de.home.zeppelin_fernsteuerung.communication.Communication;
 import de.home.zeppelin_fernsteuerung.widgets.joystick.JoystickView;
 import de.home.zeppelin_fernsteuerung.widgets.verticalseekbar.VerticalSeekBar;
@@ -105,6 +106,13 @@ public class Controler extends Thread {
 
 				Communication.sendMotorDaten(motorlinks, motorrechts, drehung,
 						heck);
+				Log.i("Controler",
+						"l="
+								+ motorlinks
+								+ Math.round((127 * fl * (betrag / (with / 4))))
+								+ "r"
+								+ Math.round((127 * fr * (betrag / (with / 4)))));
+
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

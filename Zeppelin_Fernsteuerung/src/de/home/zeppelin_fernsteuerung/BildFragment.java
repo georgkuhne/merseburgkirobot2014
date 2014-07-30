@@ -48,6 +48,7 @@ public class BildFragment extends Fragment {
 	private Button getPictureButton;
 	private static final String TAG = "RecievePictureTask";
 	MainActivity mainActivity;
+	private boolean initialized = false;
 
 	public BildFragment(MainActivity mainActivity) {
 		this.mainActivity = mainActivity;
@@ -65,6 +66,8 @@ public class BildFragment extends Fragment {
 	}
 
 	public void init() {
+		if (initialized)
+			return;
 		getPictureButton = (Button) mainActivity
 				.findViewById(R.id.buttonActivate);
 		initBluetoothAdapter();
@@ -90,6 +93,7 @@ public class BildFragment extends Fragment {
 
 		progressBar = (ProgressBar) mainActivity
 				.findViewById(R.id.progressBarREAD);
+		initialized = true;
 
 	}
 
