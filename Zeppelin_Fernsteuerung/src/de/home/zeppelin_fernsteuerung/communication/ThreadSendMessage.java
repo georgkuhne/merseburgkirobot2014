@@ -4,21 +4,23 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-public class ThreadReadAndSendMessage extends Thread {
+public class ThreadSendMessage extends Thread {
 	FTDriver ftDriver;
 	private boolean stopp;
 
-	public ThreadReadAndSendMessage(FTDriver ftDriver) {
+	public ThreadSendMessage(FTDriver ftDriver) {
 		this.ftDriver = ftDriver;
 	}
 
 	@Override
 	public void run() {
 		stopp = false;
-		while (!stopp) {
-			ConcurrentLinkedQueue<FunkMessage> sendque = Communication.sendFunkMessageQueue;
+		long t0 = System.currentTimeMillis();
 
-			FunkMessage funkMessage = sendque.poll();
+		while (!stopp) {
+			ConcurrentLinkedQueue<FunkMessage> sendqeue = Communication.sendFunkMessageQueue;
+
+			FunkMessage funkMessage = sendqeue.poll();
 			if (funkMessage != null) {
 				ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 				try {
@@ -32,7 +34,11 @@ public class ThreadReadAndSendMessage extends Thread {
 					outputStream.write(funkMessage.getPruefbyte());
 					byte c[] = outputStream.toByteArray();
 					ftDriver.write(c);
-					// String wbuf = "FTDriver Test.";
+					if (System.currentTimeMillis() - t0 >= 1050) {
+						t0 = System.currentTimeMillis();
+						sendqeue.clear();
+					}
+					;
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

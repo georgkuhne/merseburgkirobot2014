@@ -32,7 +32,7 @@ import android.widget.ToggleButton;
 import de.home._zeppelin_fernsteuerung.pictures.PictureManager;
 import de.home.zeppelin_fernsteuerung.adapter.TabsPagerAdapter;
 import de.home.zeppelin_fernsteuerung.communication.FTDriver;
-import de.home.zeppelin_fernsteuerung.communication.ThreadReadAndSendMessage;
+import de.home.zeppelin_fernsteuerung.communication.ThreadSendMessage;
 import de.home.zeppelin_fernsteuerung.communication.ThreadReadMessage;
 import de.home.zeppelin_fernsteuerung.controler.Controler;
 import de.home.zeppelin_fernsteuerung.widgets.joystick.JoystickView;
@@ -59,7 +59,7 @@ public class MainActivity extends FragmentActivity implements TabListener {
 
 	private Controler controler;
 	private MapView mapView;
-	private ThreadReadAndSendMessage threadReadAndSendMessage;
+	private ThreadSendMessage threadReadAndSendMessage;
 	private PictureManager picManager;
 	private boolean mapIsInitialized = false;
 
@@ -166,7 +166,7 @@ public class MainActivity extends FragmentActivity implements TabListener {
 				(UsbManager) getSystemService(Context.USB_SERVICE));
 
 		ftDriver.setPermissionIntent(permissionIntent);
-		threadReadAndSendMessage = new ThreadReadAndSendMessage(ftDriver);
+		threadReadAndSendMessage = new ThreadSendMessage(ftDriver);
 		// controler.start();
 		TRM = new ThreadReadMessage(ftDriver, this);
 		// TRM.start();
